@@ -1,0 +1,32 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="exchange">
+
+	<!-- 환율저장 -->
+	<insert id="addExchange" parameterType="Exchange" useGeneratedKeys="true" keyProperty="exchange_idx">
+		INSERT INTO exchange
+		(sm_idx, exchange_type, exchange_rate)
+		VALUES
+		(#{sm_idx}, #{exchange_type}, #{exchange_rate})
+	</insert>
+	
+	
+	<!-- 환율가져오기 -->
+	<select id="getExchange" parameterType="Integer" resultType="Exchange">
+		SELECT * FROM exchange
+		WHERE sm_idx=#{sm_idx}
+	</select>
+	
+	
+	<!-- 환율 삭제하기 -->
+	<delete id="delExchange" parameterType="Integer">
+		DELETE FROM exchange
+		WHERE exchange_idx=#{exchange_idx}
+	</delete>
+	
+	<!-- 일정전체삭제 -->
+	<delete id="delExchangeByDelAll" parameterType="Integer">
+		DELETE FROM exchange
+		WHERE sm_idx=#{sm_idx}
+	</delete>
+	
+</mapper>

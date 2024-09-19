@@ -1,0 +1,34 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memo">
+
+
+	<!-- 메모추가 -->
+	<insert id="addMemo" parameterType="Memo" useGeneratedKeys="true" keyProperty="memo_idx">
+		INSERT INTO memo
+		(sm_idx, day, id, content)
+		VALUES
+		(#{sm_idx}, #{day}, #{id}, #{content})
+	</insert>
+	
+	
+	<!-- 메모리스트 -->
+	<select id="getMemo" parameterType="Memo" resultType="Memo">
+		SELECT * FROM memo
+		WHERE sm_idx=#{sm_idx} AND day=#{day}
+	</select>
+	
+	
+	<!-- 메모삭제 -->
+	<delete id="delMemo" parameterType="Integer">
+		DELETE FROM memo
+		WHERE memo_idx=#{memo_idx}
+	</delete>
+	
+	
+	<!-- 일정전체삭제 -->
+	<delete id="delMemoBySmIdx" parameterType="Integer">
+		DELETE FROM memo
+		WHERE sm_idx=#{sm_idx}
+	</delete>
+
+</mapper>

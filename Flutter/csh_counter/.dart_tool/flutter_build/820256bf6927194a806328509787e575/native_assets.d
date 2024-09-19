@@ -1,0 +1,1 @@
+ C:\\Users\\user\\StudioProjects\\csh_counter\\.dart_tool\\flutter_build\\820256bf6927194a806328509787e575\\native_assets.yaml: 

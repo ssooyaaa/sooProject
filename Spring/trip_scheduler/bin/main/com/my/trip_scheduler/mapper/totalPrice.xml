@@ -1,0 +1,32 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="totalPrice">
+	
+	<!-- 총금액 저장 -->
+	<insert id="addTotal" parameterType="TotalPrice">
+		INSERT INTO totalPrice
+		(sm_idx)
+		VALUES
+		(#{sm_idx})
+	</insert>
+	
+	<!-- 총금액 수정 -->
+	<update id="updateTotal" parameterType="TotalPrice">
+	 	UPDATE totalPrice
+	 	SET total=#{total}
+	 	WHERE sm_idx=#{sm_idx}
+	</update>
+	
+	
+	<!-- 총금액 확인 -->
+	<select id="getTotal" parameterType="Integer" resultType="TotalPrice">
+		SELECT * FROM totalPrice
+		WHERE sm_idx=#{sm_idx}
+	</select>
+	
+	<!-- 전체일정삭제 -->
+	<delete id="delTotal" parameterType="Integer">
+		DELETE FROM totalPrice
+		WHERE sm_idx=#{sm_idx}
+	</delete>
+
+</mapper>

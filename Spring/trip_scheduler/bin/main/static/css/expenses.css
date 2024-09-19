@@ -1,0 +1,122 @@
+.expenses-main{
+	width:90%;
+	margin-top:30px;
+	margin-left:5%;
+}
+
+.move-page-btn{
+	width:100%;
+	padding:20px 30px;
+	font-size:25px;
+	font-family:home-name;
+	display:flex;	
+	justify-content:space-between;
+}
+
+.move-newTitle{
+	background:#fff;
+	border:none;
+}
+
+.move-allList{
+	background:#fff;
+	border:none;
+}
+
+.expensesTitle{
+	width:100%;
+	text-align:center;
+	font-family:home-name;
+	font-size:50px;
+	margin-top:10px;
+}
+
+.select-list{
+	text-align:right;
+	width:95%;
+}
+
+.search-icon{
+	cursor:pointer;
+}
+
+.expenses-item{
+	width:90%;
+	margin-left:5%;
+	margin-top:20px;
+	border:2px solid #E0DDDD;
+	border-radius:20px;
+	padding:20px 30px;
+	cursor:pointer;
+}
+
+.expenses-item:hover{
+	border:2px solid var(--color-main);
+}
+
+.item-title{
+	font-family:home-name;
+	font-size:40px;
+	color:var(--color-main);
+}
+
+.item-status{
+	margin-left:10px;
+	padding:5px 10px;
+	border-radius:20px;
+	background:#81CA6D;
+	color:#fff;
+	font-weight:700;
+}
+
+.expenses-date{
+	font-size:20px;
+	width:100%;
+	display:flex;
+	margin-top:10px;
+}
+
+.total-expenses{
+	font-size:22px;
+	margin-top:20px;
+	width:100%;
+	display:flex;
+	justify-content:right;
+	font-family:home-name;
+}
+
+.nation-price{
+	color:var(--color-main);
+	margin-left:20px;
+}
+
+.pagination-expenseList{
+	width:100%;
+	justify-content:center;
+	padding-bottom:30px;
+	padding-top:30px;
+}
+
+.pagination li a.page-link{
+    color:#1e1e1e;
+    font-size:20px;
+    font-weight:500;
+    line-height:35px;
+    height:35px;
+    width:35px;
+    margin:5px 8px;
+    border-radius: 50%;
+    border: none;
+    position: relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.pagination li a.page-link:hover,
+.pagination li a.page-link:focus,
+.pagination li.active a.page-link:hover,
+.pagination li.active a.page-link{
+    color: #fff;
+    background-color:var(--color-main);
+}

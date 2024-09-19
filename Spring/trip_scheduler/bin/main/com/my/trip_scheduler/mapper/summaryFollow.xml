@@ -1,0 +1,33 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sm_fl">
+
+	<!-- 새일정추가-친구추가 -->
+	<insert id="addSmFl" parameterType="summaryFollow">
+		INSERT INTO sm_fl
+		(sm_idx, user_idx_1, user_idx_2)
+		VALUES
+		(#{sm_idx},#{user_idx_1},#{user_idx_2})
+	</insert>
+	
+	
+	<!-- 새일정추가-title에 가져오기 -->
+	<select id="getSmFl" parameterType="Integer" resultType="summaryFollow">
+		SELECT * FROM sm_fl
+		WHERE sm_idx = ${sm_idx}
+	</select>
+	
+	
+	<!-- 모든일정가져오기-계획(sm_idx)가져오기-->
+	<select id="getSummaryIdx" parameterType="summaryFollow" resultType="summaryFollow">
+		SELECT * FROM sm_fl
+		WHERE user_idx_1=#{user_idx_1} OR user_idx_2=#{user_idx_2}
+	</select>
+	
+	
+	<!-- 일정전체삭제 -->
+	<delete id="delSmFlBySmIdx" parameterType="Integer">
+		DELETE FROM sm_fl
+		WHERE sm_idx=#{sm_idx}
+	</delete>
+	
+</mapper>

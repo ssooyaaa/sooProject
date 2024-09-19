@@ -1,0 +1,39 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="summary">
+
+	<!-- 새일정짜기(summary) -->
+	<insert id="addSummary" parameterType="Summary"  useGeneratedKeys="true" keyProperty="sm_idx">
+		INSERT INTO summary
+		(name, start_date, end_date, days)
+		VALUES
+		(#{name}, #{start_date}, #{end_date}, #{days})
+	</insert>
+	
+	
+	<!-- 일정짜기(summary가져오기)-->
+	<select id="getSummary" parameterType="Integer" resultType="Summary">
+		SELECT * FROM summary
+		WHERE sm_idx=#{sm_idx}
+	</select>
+	
+	
+	<!-- 모든일정가져오기(sm_idx로) -->
+	<select id="getAllList" parameterType="Integer" resultType="Summary">
+		SELECT * FROM summary
+		WHERE sm_idx=#{sm_idx}
+	</select>
+	
+	<!-- 일정갯수 -->
+	<select id="getCountAllList" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM summary
+		WHERE sm_idx=#{sm_idx}
+	</select>
+	
+	
+	<!-- 일정전체삭제 -->
+	<delete id="delSmBySmIdx" parameterType="Integer">
+		DELETE FROM summary
+		WHERE sm_idx=#{sm_idx}
+	</delete>
+	
+</mapper>

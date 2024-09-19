@@ -1,0 +1,84 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="follow">
+
+	
+	<!-- 승인된 친구목록  -->
+	<select id="getFollow" parameterType="Follow" resultType="User">
+		SELECT *
+		FROM user
+		INNER JOIN follow
+		ON (user.user_idx=follow.user_idx_1 OR user.user_idx=follow.user_idx_2)
+		WHERE (user_idx_1=#{user_idx_1} OR user_idx_2=#{user_idx_2}) AND fl_state="승인"
+	</select>
+	
+	
+	<!-- 친구 요청하기 -->
+	<insert id="requestFollow" parameterType="Follow">
+		INSERT INTO follow
+		(user_idx_1, user_idx_2, fl_state)
+		VALUES
+		(#{user_idx_1}, #{user_idx_2}, #{fl_state})
+	</insert>
+	
+	
+	<!-- 친구 요청전 대기/승인 상태 확인-user_idx_1(로그인 유저인 경우) -->
+	<select id="checkUserOne" parameterType="Follow" resultType="User">
+		SELECT *
+		FROM user
+		INNER JOIN follow
+		ON user.user_idx=follow.user_idx_1
+		WHERE user_idx_1=#{user_idx_1} AND user_idx_2=#{user_idx_2}
+	</select>
+	
+	
+	<!-- 친구 요청전 대기/승인 상태 확인-user_idx_2(로그인 유저인 경우) -->
+	<select id="checkUserTwo" parameterType="Follow" resultType="User">
+		SELECT *
+		FROM user
+		INNER JOIN follow
+		ON user.user_idx=follow.user_idx_2
+		WHERE user_idx_1=#{user_idx_1} AND user_idx_2=#{user_idx_2}
+	</select>
+
+
+	<!-- 친구알림리스트 숫자 카운트-->
+	<select id="getCountAlarm" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM follow
+		WHERE user_idx_2=#{user_idx_2} AND fl_state="대기"
+	</select>	
+	
+	
+	<!-- 친구요청리스트-대기중 -->
+	<select id="requestedFollowList" parameterType="Integer" resultType="User">
+		SELECT *
+		FROM user
+		INNER JOIN follow
+		ON user.user_idx=follow.user_idx_1
+		WHERE user_idx_2=#{user_idx_2} AND fl_state="대기"
+	</select>	
+	
+	
+	<!-- 친구요청리스트-승인 -->
+	<update id="acceptFollow" parameterType="Follow">
+		UPDATE follow
+		SET fl_state="승인"
+		WHERE user_idx_1=#{user_idx_1} AND user_idx_2=#{user_idx_2}
+	</update>
+	
+	
+	<!-- 친구요청리스트-거절 -->
+	<delete id="rejectFollow" parameterType="Follow">
+		DELETE FROM follow
+		WHERE user_idx_1=#{user_idx_1} AND user_idx_2=#{user_idx_2}
+	</delete>
+	
+	
+	<!-- 친구삭제  -->
+	<delete id="delFollow" parameterType="Follow">
+		DELETE FROM follow
+		WHERE (user_idx_1=#{user_idx_1} AND user_idx_2=#{user_idx_2})
+				OR (user_idx_1=#{user_idx_2} AND user_idx_2=#{user_idx_1})
+	</delete>
+	
+	
+</mapper>
