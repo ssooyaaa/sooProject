@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:diary/config/app_colors.dart';
 import 'package:diary/model/story.dart';
 import 'package:diary/widget/app_bar.dart';
 import 'package:diary/widget/calendar_widget.dart';
@@ -30,10 +31,10 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
 
   //날짜 event
-  Map<DateTime, Story> event = {
+  Map<DateTime, Story> stories = {
     DateTime.utc(2024,9,3) : Story(
         title: '오늘의 일기',
-        text: '가나다라마바사아자차카타파하 가나다라마바사아자차카타파하 가나다라마바사아자차카타파하 가나다라마바사아자차카타파하 가나다라마바사아자차카타파하'
+        text: '가나다라마바사가나다가나다라마바사아자차카타파하가나다라마바사아자차카타파하라마바사아자차카타파하아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하 가나다라마바사아자차카타파하 가나다라마바사아자차카타파하 가나다라마바사아자차카타파하 가나다라마바사아자차카타파하'
     ),
     DateTime.utc(2024,9,10) : Story(
         title: '오늘의 일기',
@@ -43,19 +44,19 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
   //story title만 뽑기
   String getStoryTitleForDay(DateTime day){
-    final eventsForDay = event[day];
+    final eventsForDay = stories[day];
     return eventsForDay?.title ?? '';
   }
 
   //story text만 뽑기
   String getStoryTextForDay(DateTime day){
-    final eventsForDay = event[day];
+    final eventsForDay = stories[day];
     return eventsForDay?.text ?? '';
   }
 
   //story가 있는 날짜만 뽑기
   List<Story> getStoryDates(DateTime day) {
-    final story = event[day];
+    final story = stories[day];
 
     if(story!=null) return [story];
     else return [];
@@ -137,7 +138,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
     final storyTitlesForSelectedDate = getStoryTitleForDay(selectedDate);
     final storyTextForSelectedDate = getStoryTextForDay(selectedDate);
 
-    //event가 없을 경우
+    //story 없을 경우
     if(storyTitlesForSelectedDate.isEmpty){
       return Container(
         padding: EdgeInsets.all(8.0),
@@ -145,8 +146,30 @@ class _DiaryScreenState extends State<DiaryScreen> {
       );
     }
 
+    //story가 있는 경우
     return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            color: AppColors.basicColor,
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              '${selectedDate.year}년 ${selectedDate.month}월 ${selectedDate.day}일',
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(height: 16.0,),
+          Expanded(
+            child: SingleChildScrollView(
+              child:Text('$storyTextForSelectedDate'),
+            ),
+          ),
 
+        ],
+      ),
     );
 
   }
