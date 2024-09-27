@@ -149,13 +149,14 @@ class _DiaryScreenState extends State<DiaryScreen> {
     //story가 있는 경우
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      padding: EdgeInsets.symmetric(vertical: 8.0,),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
+            width: double.infinity,
             color: AppColors.basicColor,
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(16.0),
             child: Text(
               '${selectedDate.year}년 ${selectedDate.month}월 ${selectedDate.day}일',
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
@@ -164,7 +165,10 @@ class _DiaryScreenState extends State<DiaryScreen> {
           SizedBox(height: 16.0,),
           Expanded(
             child: SingleChildScrollView(
-              child:Text('$storyTextForSelectedDate'),
+              child:Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text('$storyTextForSelectedDate')
+              ),
             ),
           ),
 

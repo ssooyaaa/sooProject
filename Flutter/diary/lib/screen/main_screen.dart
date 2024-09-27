@@ -1,5 +1,6 @@
 
 import 'package:diary/config/app_colors.dart';
+import 'package:diary/screen/add_routine_screen.dart';
 import 'package:diary/widget/app_bar.dart';
 import 'package:diary/widget/bottom_widget.dart';
 import 'package:diary/widget/calendar_widget.dart';
@@ -85,7 +86,10 @@ class _MainScreenState extends State<MainScreen> {
 
           IconButton(
               onPressed: (){
-                print('routine add click');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddRoutineScreen()),
+                );
               },
               icon: Icon(Icons.add)
           )
@@ -130,7 +134,12 @@ class _MainScreenState extends State<MainScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
-          onPressed: (){},
+          onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddRoutineScreen()),
+            );
+          },
           label: Text('TODAY',
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
@@ -149,6 +158,8 @@ class _MainScreenState extends State<MainScreen> {
     final eventTitlesForSelectedDate = getEventTitleForDay(selectedDate);
     final eventColorsForSelectedDate = getEventColorForDay(selectedDate);
 
+
+
     //event가 없을 경우
     if(eventTitlesForSelectedDate.isEmpty){
       return Container(
@@ -157,30 +168,61 @@ class _MainScreenState extends State<MainScreen> {
       );
     }
 
-    return ListView.builder(
-        itemCount: eventTitlesForSelectedDate.length,
-
-        itemBuilder: (context, index){
-          final text = eventTitlesForSelectedDate[index];
-          final selectedcolor = eventColorsForSelectedDate[index];
-          final color = colorMap[selectedcolor] ?? Colors.white;
-
-          return ListTile(
-            title: Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: color,
-                  width: 4.0,
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 8.0,),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: double.infinity,
+            color: AppColors.basicColor,
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${selectedDate.year}년 ${selectedDate.month}월 ${selectedDate.day}일',
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                 ),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Text(text,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
+                SizedBox(height: 4.0,),
+                Text(
+                  '3개 완료',
+                  style: TextStyle(fontSize: 14.0),
+                ),
+              ],
             ),
-          );
-        }
+          ),
+
+          Expanded(
+            child: ListView.builder(
+                itemCount: eventTitlesForSelectedDate.length,
+
+                itemBuilder: (context, index){
+                  final text = eventTitlesForSelectedDate[index];
+                  final selectedcolor = eventColorsForSelectedDate[index];
+                  final color = colorMap[selectedcolor] ?? Colors.white;
+
+                  return ListTile(
+                    title: Container(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: color,
+                          ),
+                          SizedBox(width: 8.0,),
+                          Text(text,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+            ),
+          ),
+        ],
+      ),
     );
 
   }
