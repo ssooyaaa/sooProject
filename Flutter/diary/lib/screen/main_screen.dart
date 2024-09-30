@@ -1,9 +1,11 @@
 
 import 'package:diary/config/app_colors.dart';
-import 'package:diary/screen/add_routine_screen.dart';
+import 'package:diary/screen/rountine_list_screen.dart';
+import 'package:diary/screen/today_routine_screen.dart';
 import 'package:diary/widget/app_bar.dart';
 import 'package:diary/widget/bottom_widget.dart';
 import 'package:diary/widget/calendar_widget.dart';
+import 'package:diary/widget/floating_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -33,8 +35,8 @@ class _MainScreenState extends State<MainScreen> {
 
   //날짜 event
   Map<DateTime, List<Event>> events = {
-    DateTime.utc(2024,9,3) : [Event(text: 'title1', color: 'red'), Event(text: 'title2',color: 'orange'),  Event(text: 'title2',color: 'yellow'),  Event(text: 'title2',color: 'green'),  Event(text: 'title2',color: 'blue'), Event(text: 'title2',color: 'purple'), Event(text: 'title2',color: 'black'), Event(text: 'title2',color: 'grey')],
-    DateTime.utc(2024,9,4) : [Event(text: 'title3',color: 'black'), Event(text: 'title3',color: 'grey'),Event(text: 'title3', color: 'purple'),],
+    DateTime.utc(2024,9,3) : [Event(text: 'title1', color: 'red'), Event(text: 'title2',color: 'orange'),  Event(text: 'title2',color: 'yellow'),  Event(text: 'title2',color: 'green'),  Event(text: 'title2',color: 'blue'), Event(text: 'title2',color: 'purple'), Event(text: 'title2',color: 'brown'), Event(text: 'title2',color: 'grey')],
+    DateTime.utc(2024,9,4) : [Event(text: 'title3',color: 'brown'), Event(text: 'title3',color: 'grey'),Event(text: 'title3', color: 'purple'),],
   };
 
   //eventList title만 뽑기
@@ -53,18 +55,6 @@ class _MainScreenState extends State<MainScreen> {
   List<Event> getEventForDay(DateTime day){
     return events[day] ?? [];
   }
-
-  //colorMap(테이블 저장 color -> Colors로 변경)
-  Map<String, Color> colorMap = {
-    'red' : Colors.red,
-    'orange' : Colors.orange,
-    'yellow' : Colors.yellow,
-    'green' : Colors.green,
-    'blue' : Colors.blue,
-    'purple' : Colors.purple,
-    'black' : Colors.black,
-    'grey' : Colors.grey,
-  };
 
 
 
@@ -88,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
               onPressed: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AddRoutineScreen()),
+                  MaterialPageRoute(builder: (context) => RountineListScreen()),
                 );
               },
               icon: Icon(Icons.add)
@@ -129,20 +119,14 @@ class _MainScreenState extends State<MainScreen> {
 
 
       //오늘 루틴 추가하기 버튼 -> 다른 방법으로 바꿈
-      floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: AppColors.moreBasicColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          ),
-          onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddRoutineScreen()),
-            );
-          },
-          label: Text('TODAY',
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          ),
+      floatingActionButton: FloatingButton(
+        onScreenSelected: (context){
+          return Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => TodayRoutineScreen()),
+          );
+        },
+        buttonText: 'TODAY',
       ),
 
 
@@ -200,7 +184,7 @@ class _MainScreenState extends State<MainScreen> {
                 itemBuilder: (context, index){
                   final text = eventTitlesForSelectedDate[index];
                   final selectedcolor = eventColorsForSelectedDate[index];
-                  final color = colorMap[selectedcolor] ?? Colors.white;
+                  final color = AppColors().colorMap[selectedcolor] ?? Colors.white;
 
                   return ListTile(
                     title: Container(
@@ -244,7 +228,7 @@ class _MainScreenState extends State<MainScreen> {
                         events.length,
                         (index){
                           final event = events[index];
-                          final color = colorMap[event.color] ?? Colors.white;
+                          final color = AppColors().colorMap[event.color] ?? Colors.white;
                           return Container(
                             width: 7.0,
                             height: 7.0,

@@ -7,6 +7,19 @@ class AppColors{
   //메인보다 조금 더 진한색
   static const moreBasicColor = Color(0xfffbdcb4);
 
+
+  //colorMap(테이블 저장 color -> Colors로 변경)
+  Map<String, Color> colorMap = {
+    'red' : Colors.red,
+    'orange' : Colors.orange,
+    'yellow' : Colors.yellow,
+    'green' : Colors.green,
+    'blue' : Colors.blue,
+    'purple' : Colors.purple,
+    'brown' : Colors.brown,
+    'grey' : Colors.grey,
+  };
+
 }
 
 
