@@ -71,15 +71,21 @@ class _DiaryScreenState extends State<DiaryScreen> {
       //일기 화면 -> +버튼 일기 추가
       appBar: CustomAppBar(
         actions: [
+
           IconButton(
               onPressed: (){
                 setState(() {
                   newFormat = (newFormat == CalendarFormat.month)
                       ? CalendarFormat.week : CalendarFormat.month;
                   print('$newFormat');
-              });
+                });
               },
-              icon: Icon(Icons.calendar_today),
+              //아이콘 변경
+              icon: Icon(
+                newFormat == CalendarFormat.month
+                  ? Icons.zoom_in_map
+                  : Icons.zoom_out_map,
+              ),
           ),
           IconButton(
               onPressed: (){

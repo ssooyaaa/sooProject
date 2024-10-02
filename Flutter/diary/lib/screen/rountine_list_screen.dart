@@ -155,7 +155,7 @@ class _RountineListScreenState extends State<RountineListScreen> {
 
             LongButton(
               onTap: (){
-                //todo showDialog(팝업창)
+                //showDialog(팝업창)
                 showDialog(
                     context: context,
                     barrierDismissible: false,//팝업 밖 터치 -> 팝업창 사라짐
@@ -173,7 +173,7 @@ class _RountineListScreenState extends State<RountineListScreen> {
                                       child: Column(
                                         children: [
 
-                                          //todo 루틴 제목, 루틴 색상 결정, 버튼
+                                          //루틴 제목, 루틴 색상 결정, 버튼
                                           SizedBox(height: 10.0,),
                                           buildTitle(titleText: 'ROUTINE'),
                                           AppInput(
@@ -243,11 +243,19 @@ class _RountineListScreenState extends State<RountineListScreen> {
                           ),
                           TextButton(
                             onPressed: (){
+
+                              //todo 색깔 or 루틴이름이 없을 경우, 저장불가 -> 알림 필요
+                              //todo 루틴 저장 / 수정
+
                               print('결과 : $selectedColor');
                               print('루틴이름 : ${titleController.text}');
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('루틴이 저장되었습니다.')),
+                              );
                               Navigator.of(context).pop(true); //삭제 취소
                             },
-                            child: Text('등록',
+                            child: Text('저장',
                               style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -259,8 +267,8 @@ class _RountineListScreenState extends State<RountineListScreen> {
               },
               width: double.infinity,
               child: Center(
-                child: Text('루틴추가',
-                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                child: Text('루틴 추가',
+                  style: TextStyle(color: Colors.black, fontSize:17, fontWeight: FontWeight.bold),
                 ),
               ),
               backgroundColor: AppColors.basicColor,
