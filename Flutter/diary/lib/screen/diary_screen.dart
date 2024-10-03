@@ -2,6 +2,8 @@ import 'dart:ffi';
 
 import 'package:diary/config/app_colors.dart';
 import 'package:diary/model/story.dart';
+import 'package:diary/screen/today_routine_screen.dart';
+import 'package:diary/screen/write_diary_screen.dart';
 import 'package:diary/widget/app_bar.dart';
 import 'package:diary/widget/calendar_widget.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +79,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 setState(() {
                   newFormat = (newFormat == CalendarFormat.month)
                       ? CalendarFormat.week : CalendarFormat.month;
-                  print('$newFormat');
                 });
               },
               //아이콘 변경
@@ -89,7 +90,10 @@ class _DiaryScreenState extends State<DiaryScreen> {
           ),
           IconButton(
               onPressed: (){
-                print('story add click');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WriteDiaryScreen()),
+                );
               },
               icon: Icon(Icons.add)
           ),

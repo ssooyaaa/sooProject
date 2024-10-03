@@ -16,10 +16,55 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        elevation: 0,
+        actions: [
+          ...?actions, //페이지별 actions 리스트
+          IconButton(
+              //todo 로그아웃 설정
+              onPressed: (){
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context){
+                      return AlertDialog(
+                        content: Text('로그아웃 하시겠습니까?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: (){
+                              Navigator.of(context).pop(false); //삭제 취소
+                            },
+                            child: Text('취소',
+                              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: (){
+                              Navigator.of(context).pop(true); //삭제
 
-        actions: actions,
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('로그아웃되었습니다.')),
+                              );
+
+                              //todo 로그인창으로 이동
+                              /*Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => MainScreen()),
+                              );*/
+                            },
+                            child: Text('로그아웃',
+                              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+
+                        ],
+                      );
+                    }
+                );
+              },
+              icon: Icon(Icons.logout,),
+          )
+        ],
       ),
-
+/*
       drawer: Drawer(
 
         backgroundColor: AppColors.basicColor,
@@ -77,7 +122,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
           ],
 
         ),
-      ),
+      ),*/
 
     );
   }

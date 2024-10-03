@@ -1,4 +1,5 @@
 import 'package:diary/config/app_colors.dart';
+import 'package:diary/screen/main_screen.dart';
 import 'package:diary/widget/app_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -112,7 +113,16 @@ class _TodayRoutineScreenState extends State<TodayRoutineScreen> {
 
             LongButton(
                 //todo 버튼 저장시, 데이터 수정/저장
-                onTap: (){},
+                onTap: (){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('오늘의 루틴이 저장되었습니다.')),
+                  );
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainScreen()),
+                  );
+                },
                 width: double.infinity,
                 child: Center(
                   child: Text('오늘의 루틴 저장',

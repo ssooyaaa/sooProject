@@ -1,3 +1,4 @@
+import 'package:diary/config/app_config.dart';
 import 'package:flutter/material.dart';
 
 import '../config/app_colors.dart';
@@ -244,11 +245,17 @@ class _RountineListScreenState extends State<RountineListScreen> {
                           TextButton(
                             onPressed: (){
 
-                              //todo 색깔 or 루틴이름이 없을 경우, 저장불가 -> 알림 필요
                               //todo 루틴 저장 / 수정
 
-                              print('결과 : $selectedColor');
-                              print('루틴이름 : ${titleController.text}');
+                              if(titleController.text.isEmpty){
+                                AppConfig.showToast(text: '루틴 이름을 적어주세요');
+                                return;
+                              }
+
+                              if(selectedColor.isEmpty){
+                                AppConfig.showToast(text: '색상을 선택해주세요');
+                                return;
+                              }
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('루틴이 저장되었습니다.')),
