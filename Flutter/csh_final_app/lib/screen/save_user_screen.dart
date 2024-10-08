@@ -1,5 +1,9 @@
+import 'package:csh_final_app/app_http/user_http.dart';
+import 'package:csh_final_app/config/app_config.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import '../vo/user.dart';
 import '../widget/app_widget.dart';
 
 
@@ -156,13 +160,55 @@ class _SaveUserScreenState extends State<SaveUserScreen> {
             ),
 
             LongButton(
-              onTap: (){
+              onTap: () async{
+
+                AppConfig.showToast(text: 'abcd');
+
+                if(idController.text.isEmpty){
+                  AppConfig.showToast(text: '아이디를 입력하세요.');
+                  return;
+                }
+
+                if(pwController.text.isEmpty){
+                  AppConfig.showToast(text: '패스워드를 입력하세요.');
+                  return;
+                }
+
+                if(nickController.text.isEmpty){
+                  AppConfig.showToast(text: '닉네임을 입력하세요.');
+                  return;
+                }
+
+                if(addressController.text.isEmpty){
+                  AppConfig.showToast(text: '주소를 입력하세요.');
+                  return;
+                }
+
+                if(pwController.text != pwCheckController.text){
+                  AppConfig.showToast(text: '비밀번호가 일치하지 않습니다.');
+                  return;
+                }
+
                 print(idController.text);
                 print(pwController.text);
                 print(pwCheckController.text);
                 print(nickController.text);
                 print(addressController.text);
                 print(_developerType);
+
+
+                User user = User(
+                  id: idController.text,
+                  pw: pwController.text,
+                  nick: nickController.text,
+                  address: addressController.text,
+                );
+
+                var response = await UserHttp.save(user: user);
+
+                if(response){
+                  AppConfig.showToast(text: '회원가입 완료');
+                }
 
               },
               width: double.infinity,

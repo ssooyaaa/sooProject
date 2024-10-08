@@ -1,6 +1,9 @@
 import 'package:csh_final_app/config/app_color.dart';
 import 'package:csh_final_app/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'model/user_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,15 +15,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserModel()),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
 
-        fontFamily: 'noto_r',
-        primarySwatch: getMaterialColor(AppColors.mainColor),
-        useMaterial3: false,
+          fontFamily: 'noto_r',
+          primarySwatch: getMaterialColor(AppColors.mainColor),
+          useMaterial3: false,
+        ),
+        home: SplashScreen(),
       ),
-      home: SplashScreen(),
     );
   }
 }
