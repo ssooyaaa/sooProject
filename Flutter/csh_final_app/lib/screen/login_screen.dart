@@ -1,8 +1,15 @@
+import 'package:csh_final_app/app_http/user_http.dart';
 import 'package:csh_final_app/config/app_color.dart';
+import 'package:csh_final_app/config/app_config.dart';
+import 'package:csh_final_app/model/user_model.dart';
+import 'package:csh_final_app/screen/home_screen.dart';
 import 'package:csh_final_app/screen/save_user_screen.dart';
 import 'package:csh_final_app/widget/app_logo.dart';
 import 'package:csh_final_app/widget/app_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../vo/user.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -52,7 +59,37 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 20,),
 
             LongButton(
-                onTap: (){},
+                onTap: () async{
+                  //todo 로그인 요청
+
+                  //1. 백엔드 요청
+                  User user = User(
+                    id : idController.text,
+                    pw : pwController.text
+                  );
+
+                  User? result = await UserHttp.findByIdAndPw(user: user);
+
+                  //2. 받은 user 상태관리 세팅(me)
+                  Provider.of<UserModel>(context,listen:false).setLoginUser(user: result);
+
+                  if(result!=null){
+                    //로그인 성공
+                    AppConfig.showToast(text: '로그인 성공');
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    );
+
+
+                  }else{
+                    //로그인 실패
+                    AppConfig.showToast(text: '로그인 실패');
+
+                  }
+
+                },
+
                 width: 300,
                 child: Center(
                     child: Text('로그인', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17),)),

@@ -208,6 +208,7 @@ class _SaveUserScreenState extends State<SaveUserScreen> {
 
                 if(response){
                   AppConfig.showToast(text: '회원가입 완료');
+                  Navigator.pop(context);
                 }
 
               },
