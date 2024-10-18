@@ -15,4 +15,9 @@ public class UserDao {
 	public int save(User user) {
 		return s.insert("UserMapper.save", user);
 	}
+	
+	
+	public User findByIdAndPw(User user) {
+		return s.selectOne("UserMapper.findByIdAndPw", user);
+	}
 }

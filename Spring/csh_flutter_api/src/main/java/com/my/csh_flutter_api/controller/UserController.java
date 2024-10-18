@@ -2,6 +2,7 @@ package com.my.csh_flutter_api.controller;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,26 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+	
+	
+	
+	
+	@GetMapping("findByIdAndPw")
+	public User findByIdAndPw(
+			@RequestParam(value="id") String id,
+			@RequestParam(value="pw") String pw
+			) {
+		
+		User user = new User();
+		user.setId(id);
+		user.setPw(pw);
+		
+		return userService.findByIdAndPw(user);
+		
+		
+	}
+	
 	
 	
 	@PostMapping("create")
