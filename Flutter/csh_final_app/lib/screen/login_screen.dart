@@ -8,6 +8,7 @@ import 'package:csh_final_app/widget/app_logo.dart';
 import 'package:csh_final_app/widget/app_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../vo/user.dart';
 
@@ -76,6 +77,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   if(result!=null){
                     //로그인 성공
                     AppConfig.showToast(text: '로그인 성공');
+
+                    //로컬 스토리지에 저장
+                    final SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.setInt("login_user_idx", result.userIdx);
+
+
+
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => HomeScreen()),

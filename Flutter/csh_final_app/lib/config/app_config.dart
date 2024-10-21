@@ -6,6 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 class AppConfig{
   static String apiAddress = 'http://43.201.46.171:8080/csh_flutter_api';
 
+  //static String apiAddress = 'http://3.36.28.140:8080/csh_flutter_api';
+
 
   static void showToast({required String text}){
     Fluttertoast.showToast(
