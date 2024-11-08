@@ -20,4 +20,9 @@ public class UserService {
 	public User findByIdAndPw(User user) {
 		return userDao.findByIdAndPw(user);
 	}
+	
+	
+	public User findByIdx(int idx) {
+		return userDao.findByIdx(idx);
+	}
 }

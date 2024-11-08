@@ -21,6 +21,14 @@ public class UserController {
 	
 	
 	
+	@GetMapping("findByIdx")
+	public User findByIdx(
+			@RequestParam(value="idx") int user_idx
+			) {
+		
+		return userService.findByIdx(user_idx);
+	}
+	
 	
 	
 	@GetMapping("findByIdAndPw")

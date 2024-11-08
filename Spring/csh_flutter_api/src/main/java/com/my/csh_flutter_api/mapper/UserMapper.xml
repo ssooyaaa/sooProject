@@ -2,6 +2,14 @@
 <mapper namespace="UserMapper">	
 
 
+	<select id="findByIdx" parameterType="Integer" resultType="User">
+		
+		select * from `user`
+		where user_idx=#{user_idx}
+	
+	</select>
+	
+
 	<select id="findByIdAndPw" parameterType="User" resultType="User">
 		
 		select * from `user`

@@ -20,4 +20,8 @@ public class UserDao {
 	public User findByIdAndPw(User user) {
 		return s.selectOne("UserMapper.findByIdAndPw", user);
 	}
+	
+	public User findByIdx(int idx) {
+		return s.selectOne("UserMapper.findByIdx", idx);
+	}
 }
