@@ -27,7 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     int loginUserIdx = prefs.getInt("login_user_idx") ?? 0;
 
-
     if(loginUserIdx==0){
 
       Navigator.pushReplacement(
@@ -39,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
       User? u = await UserHttp.findByIdx(userIdx: loginUserIdx);
 
-      print(u!.id);
+      print('${u?.nick}');
       Provider.of<UserModel>(context,listen:false).setLoginUser(user: u);
 
 

@@ -9,6 +9,7 @@ class UserModel extends ChangeNotifier{
 
   void setLoginUser({required User? user}){
     me = user;
+
     notifyListeners();
   }
 
