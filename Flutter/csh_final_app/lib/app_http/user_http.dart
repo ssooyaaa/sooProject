@@ -8,6 +8,32 @@ import '../vo/user.dart';
 class UserHttp{
 
 
+  //todo 회원리스트
+  static Future<List<User>> getUserList({required int start, required int count}) async{
+
+    var requestUrl = '${AppConfig.apiAddress}/api/user/getUserList';
+
+    Uri uri = Uri.parse(requestUrl);
+    var urlParam = uri.replace(queryParameters: {
+      'start':start.toString(),
+      'count':count.toString(),
+    });
+
+    var response = await http.get(urlParam);
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes));
+
+    List<User> users = [];
+    for(var one in data){
+      User u = User.fromJson(one);
+      users.add(u);
+    }
+
+    return users;
+
+  }
+
+
   //todo idx로 회원조회
   static Future<User?> findByIdx({required int userIdx}) async{
 

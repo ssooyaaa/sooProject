@@ -40,6 +40,20 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         title: Text(appBarTitles[selectedIdx]),
         elevation: 0,
+        actions: [
+          IconButton(
+              onPressed: () async{
+                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setInt('login_user_idx', 0);
+
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
+              },
+              icon: Icon(Icons.logout),
+          )
+        ],
       ),
       body: IndexedStack(
         index: selectedIdx,
