@@ -9,6 +9,9 @@ class UserModel extends ChangeNotifier{
   User? me;
   List<User> usersInTab = [];
 
+  //상세페이지 - 회원
+  User? detailUser;
+
 
   void setUserList({required int start, required int count}) async{
     List<User> chunk = await UserHttp.getUserList(start: start, count: count);
@@ -21,6 +24,13 @@ class UserModel extends ChangeNotifier{
 
   void setLoginUser({required User? user}){
     me = user;
+
+    notifyListeners();
+  }
+
+
+  void setDetailUser({required int userIdx}) async{
+    detailUser = await UserHttp.findByIdx(userIdx: userIdx);
 
     notifyListeners();
   }
