@@ -48,7 +48,7 @@ class UserHttp{
 
 
     if(response.body.isNotEmpty) {
-      var json = jsonDecode(response.body);
+      var json = jsonDecode(utf8.decode(response.bodyBytes));
       return User.fromJson(json);
     }else {
       return null;

@@ -1,6 +1,6 @@
 
 import 'package:csh_final_app/model/user_model.dart';
-import 'package:csh_final_app/screen/tabs/boards_tab.dart';
+import 'package:csh_final_app/screen/item_list_screen.dart';
 import 'package:csh_final_app/screen/tabs/mypage_tab.dart';
 import 'package:csh_final_app/screen/tabs/users_tab.dart';
 import 'package:flutter/material.dart';
@@ -23,13 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> tabs = [
     UsersTab(),
-    BoardsTab(),
+    ItemListScreen(),
     MypageTab()
   ];
 
   List<String> appBarTitles = [
     '회원리스트',
-    '게시판',
+    '중고거래',
     '마이페이지'
   ];
 
@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu_outlined),
-            label: '게시판',
+            label: '중고거래',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info_outline),

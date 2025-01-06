@@ -91,11 +91,12 @@ class UserBox extends StatelessWidget {
       onTap: (){
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => DetailUserScreen()),
+          MaterialPageRoute(builder: (context) => DetailUserScreen(user: user,)),
         );
       },
 
       child: Container(
+        color: Colors.transparent,
         width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(

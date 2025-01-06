@@ -30,6 +30,7 @@ class UserModel extends ChangeNotifier{
 
 
   void setDetailUser({required int userIdx}) async{
+    detailUser = null; //초기화
     detailUser = await UserHttp.findByIdx(userIdx: userIdx);
 
     notifyListeners();
