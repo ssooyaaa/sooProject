@@ -19,7 +19,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
       'location': '역삼동',
       'time': '4분 전',
       'price': '130,000원',
-      'image': 'https://via.placeholder.com/100',
+      'image': 'https://picsum.photos/250?image=9',
       'likes': 1,
     },
     {
@@ -27,7 +27,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
       'location': '서초2동',
       'time': '5분 전',
       'price': '5,000원',
-      'image': 'https://via.placeholder.com/100',
+      'image': 'https://picsum.photos/250?image=9',
       'likes': 0,
     },
     {
@@ -35,7 +35,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
       'location': '서초2동',
       'time': '5분 전',
       'price': '3,000원',
-      'image': 'https://via.placeholder.com/100',
+      'image': 'https://picsum.photos/250?image=9',
       'likes': 2,
     },
     {
@@ -43,7 +43,7 @@ class _ItemListScreenState extends State<ItemListScreen> {
       'location': '논현1동',
       'time': '11분 전',
       'price': '21,000원',
-      'image': 'https://via.placeholder.com/100',
+      'image': 'https://picsum.photos/250?image=9',
       'likes': 20,
     },
   ];
