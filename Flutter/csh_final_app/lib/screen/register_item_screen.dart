@@ -11,13 +11,12 @@ class RegisterItemScreen extends StatefulWidget {
   State<RegisterItemScreen> createState() => _RegisterItemScreenState();
 }
 
+
 class _RegisterItemScreenState extends State<RegisterItemScreen> {
 
   final ImagePicker picker = ImagePicker();
 
-  List<Widget> imagesBoxes = [
-
-  ];
+  List<Widget> imagesBoxes = [];
 
   /*final List<XFile?> images = [];
   final ImagePicker picker = ImagePicker();
@@ -74,10 +73,14 @@ class _RegisterItemScreenState extends State<RegisterItemScreen> {
 
                     if(image != null){
                       Uint8List fileBytes = await convertResizedUint8List(xFile: image, resizedWidth: 700);
-                      imagesBoxes.add(ImageBox(bytes: fileBytes));
-                      setState(() {
+                      imagesBoxes.add(ImageBox(
+                          bytes: fileBytes,
 
+                      ));
+                      setState(() {
+                        
                       });
+
                     }
 
                   },
@@ -117,20 +120,42 @@ class _RegisterItemScreenState extends State<RegisterItemScreen> {
 class ImageBox extends StatelessWidget {
   Uint8List bytes;
 
-  ImageBox({required this.bytes});
+  ImageBox({
+    required this.bytes,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(width: 1, color: Color(0xffdedede))
-        ),
-        width: 80,
-        height: 80,
-        child: ClipRRect(
+    return Stack(
+      alignment: Alignment.topRight,
+      children: [
+        Container(
+          decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            child: Image.memory(bytes, width: 80, height: 80, fit: BoxFit.cover,)),
+            border: Border.all(width: 1, color: Color(0xffdedede))
+          ),
+          width: 80,
+          height: 80,
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.memory(bytes, width: 80, height: 80, fit: BoxFit.cover,)),
+        ),
+
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.black,
+          ),
+          child: IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              onPressed: (){
+
+              },
+              icon: Icon(Icons.close, color: Colors.white, size: 15,),
+          ),
+        ),
+      ],
     );
 
   }
