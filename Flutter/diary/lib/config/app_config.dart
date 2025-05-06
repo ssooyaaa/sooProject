@@ -3,6 +3,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class AppConfig{
 
+  static String apiAddress = 'http://43.201.46.171:8080/diary_flutter';
+
+
   static void showToast({required String text}){
     Fluttertoast.showToast(
         msg: text,

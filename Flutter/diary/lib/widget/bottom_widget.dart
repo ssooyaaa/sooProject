@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 
 
 class BottomWidget extends StatefulWidget {
-  const BottomWidget({super.key});
+  int bottomSelectedIdx;
+
+  BottomWidget({super.key, required this.bottomSelectedIdx});
 
   @override
   State<BottomWidget> createState() => _BottomWidgetState();
@@ -13,7 +15,6 @@ class BottomWidget extends StatefulWidget {
 
 class _BottomWidgetState extends State<BottomWidget> {
 
-  int bottomSelectedIdx = 0;
 
   List<Widget> pages = [
     MainScreen(),
@@ -22,7 +23,7 @@ class _BottomWidgetState extends State<BottomWidget> {
 
   void onItemTapped(int index){
     setState(() {
-      bottomSelectedIdx = index;
+      widget.bottomSelectedIdx = index;
     });
   }
 
@@ -31,13 +32,13 @@ class _BottomWidgetState extends State<BottomWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
-        index: bottomSelectedIdx,
+        index: widget.bottomSelectedIdx,
         children: pages,
       ),
 
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppColors.basicColor,
-        currentIndex: bottomSelectedIdx,
+        currentIndex: widget.bottomSelectedIdx,
         onTap: onItemTapped,
         items: const[
           BottomNavigationBarItem(

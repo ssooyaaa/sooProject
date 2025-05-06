@@ -1,4 +1,8 @@
+import 'package:diary/model/user_model.dart';
+import 'package:diary/screen/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/app_colors.dart';
 
@@ -37,18 +41,25 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
                             ),
                           ),
                           TextButton(
-                            onPressed: (){
+                            onPressed: () async{
                               Navigator.of(context).pop(true); //삭제
+
+                              final SharedPreferences prefs = await SharedPreferences.getInstance();
+                              prefs.setInt('login_user_idx', 0);
+
+                              Provider.of<UserModel>(context, listen: false).logout();
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('로그아웃되었습니다.')),
                               );
 
                               //todo 로그인창으로 이동
-                              /*Navigator.push(
+                              Navigator.pushAndRemoveUntil(
                                 context,
-                                MaterialPageRoute(builder: (context) => MainScreen()),
-                              );*/
+                                MaterialPageRoute(builder: (context) => LoginScreen()),
+                                    (route) => false, // 이전 모든 라우트를 제거
+                              );
+
                             },
                             child: Text('로그아웃',
                               style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),

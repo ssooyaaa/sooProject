@@ -1,5 +1,8 @@
 
+import 'package:diary/app_http/today_routine_http.dart';
 import 'package:diary/config/app_colors.dart';
+import 'package:diary/model/todayRoutine_model.dart';
+import 'package:diary/model/user_model.dart';
 import 'package:diary/screen/rountine_list_screen.dart';
 import 'package:diary/screen/today_routine_screen.dart';
 import 'package:diary/widget/app_bar.dart';
@@ -9,9 +12,12 @@ import 'package:diary/widget/floating_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../model/event.dart';
+import '../model/routine_model.dart';
+import '../vo/event.dart';
+import '../vo/today_routine.dart';
 
 
 
@@ -24,7 +30,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-
   //선택된 날짜 관리변수
   DateTime selectedDate = DateTime.utc(
       DateTime.now().year,
@@ -32,29 +37,96 @@ class _MainScreenState extends State<MainScreen> {
       DateTime.now().day
   );
 
+  late DateTime startDate;
+  late DateTime endDate;
+
+  late int loginIdx;
+  late List<TodayRoutine> monthTodayRoutines = []; //초기 빈 리스트로 설정해두어야함.
+  bool isLoading = true;
+
+  Map<DateTime, List<Event>> events = {};
+
+  @override
+  void initState(){
+    super.initState();
+
+    loginIdx = Provider.of<UserModel>(context, listen: false).me!.userIdx;
+
+    initializeRoutineList(selectedDate);
+  }
+
+  Future<void> initializeRoutineList(DateTime date) async{
+    DateTime startDate = DateTime.utc(date.year, date.month-1, date.day);
+    DateTime endDate = DateTime.utc(date.year, date.month+1, date.day);
+    //await Provider.of<RoutineModel>(context, listen: false).setRoutineList(userIdx: loginIdx);
+
+    monthTodayRoutines = await TodayRoutineHttp.getMonthRoutines(startDate: startDate, endDate: endDate, userIdx: loginIdx);
+
+    var dateFormat = DateFormat('yyyy-MM-dd');
+
+    events.clear();
+
+    for(var one in monthTodayRoutines){
+      String date = dateFormat.parse(one.savedDate).toString().substring(0,10);
+      List<String> dateParts = date.split('-');
+
+      DateTime savedDate = DateTime.utc(
+        int.parse(dateParts[0]),
+        int.parse(dateParts[1]),
+        int.parse(dateParts[2])
+      );
+
+      String routine = one.routines;
+      String color = one.color;
+      bool isChecked = one.isChecked;
+
+      Event event = Event(text: routine, color: color, isChecked: isChecked);
+
+      if(events[savedDate] == null){
+        events[savedDate] = [event];
+      }else
+        events[savedDate]!.add(event);
+    }
+
+    /*print('events:$events');
+
+    events.forEach((savedDate, eventList) {
+      print('savedDate: $savedDate');
+      eventList.forEach((event) {
+        print('  Event: ${event.text}, Color: ${event.color}');
+      });
+    });
+*/
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   //날짜 event
-  Map<DateTime, List<Event>> events = {
-    DateTime.utc(2024,9,3) : [Event(text: 'title1', color: 'red'), Event(text: 'title2',color: 'orange'),  Event(text: 'title2',color: 'yellow'),  Event(text: 'title2',color: 'green'),  Event(text: 'title2',color: 'blue'), Event(text: 'title2',color: 'purple'), Event(text: 'title2',color: 'brown'), Event(text: 'title2',color: 'grey')],
-    DateTime.utc(2024,9,4) : [Event(text: 'title3',color: 'brown'), Event(text: 'title3',color: 'grey'),Event(text: 'title3', color: 'purple'),],
-  };
+ /* Map<DateTime, List<Event>> events = {
+    DateTime.utc(2025,3,1) : [Event(text: 'title1', color: 'red'), Event(text: 'title2',color: 'orange'),  Event(text: 'title2',color: 'yellow'),  Event(text: 'title2',color: 'green'),  Event(text: 'title2',color: 'blue'), Event(text: 'title2',color: 'purple'), Event(text: 'title2',color: 'brown'), Event(text: 'title2',color: 'grey')],
+    DateTime.utc(2025,3,4) : [Event(text: 'title3',color: 'brown'), Event(text: 'title3',color: 'grey'),Event(text: 'title3', color: 'purple'),],
+  };*/
+
+
+
+  //event가 있는 날짜(isChecked=true) 뽑기
+  List<Event> getEventForDay(DateTime day){
+    return (events[day] ?? []).where((event) => event.isChecked).toList();
+  }
 
   //eventList title만 뽑기
   List<String> getEventTitleForDay(DateTime day){
-    final eventsForDay = events[day] ?? [];
+    final eventsForDay = getEventForDay(day);
     return eventsForDay.map((event) => event.text).toList();
   }
 
   //eventList color만 뽑기
   List<String> getEventColorForDay(DateTime day){
-    final eventsForDay = events[day] ?? [];
+    final eventsForDay = getEventForDay(day);
     return eventsForDay.map((event) => event.color).toList();
   }
 
-  //event가 있는 날짜만 뽑기
-  List<Event> getEventForDay(DateTime day){
-    return events[day] ?? [];
-  }
 
 
 
@@ -67,12 +139,13 @@ class _MainScreenState extends State<MainScreen> {
       //루틴 화면 -> +버튼 루틴 추가 변경
       appBar: CustomAppBar(
         actions : [
-          IconButton(
+          /*IconButton(
               onPressed: (){
                 print('chart click');
+                print(selectedDate);
               },
               icon: Icon(Icons.bar_chart)
-          ),
+          ),*/
 
           IconButton(
               onPressed: (){
@@ -101,9 +174,19 @@ class _MainScreenState extends State<MainScreen> {
                   onDateSelected: (date){
                     setState(() {
                       selectedDate = date;
+                      initializeRoutineList(date);
                     });
                   },
                   calendarFormat: CalendarFormat.month,
+                  onPageChanged: (focusedDate){
+
+
+                    setState(() {
+                      selectedDate = focusedDate;
+
+                      initializeRoutineList(selectedDate);
+                    });
+                  },
               ),
             ),
 
@@ -143,7 +226,6 @@ class _MainScreenState extends State<MainScreen> {
     final eventColorsForSelectedDate = getEventColorForDay(selectedDate);
 
 
-
     //event가 없을 경우
     if(eventTitlesForSelectedDate.isEmpty){
       return Container(
@@ -170,7 +252,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 SizedBox(height: 4.0,),
                 Text(
-                  '3개 완료',
+                  '${getEventForDay(selectedDate).length}개 완료',
                   style: TextStyle(fontSize: 14.0),
                 ),
               ],
@@ -184,7 +266,7 @@ class _MainScreenState extends State<MainScreen> {
                 itemBuilder: (context, index){
                   final text = eventTitlesForSelectedDate[index];
                   final selectedcolor = eventColorsForSelectedDate[index];
-                  final color = AppColors().colorMap[selectedcolor] ?? Colors.white;
+                  final color = AppColors().colorMap[selectedcolor] ?? Colors.black;
 
                   return ListTile(
                     title: Container(
@@ -224,11 +306,29 @@ class _MainScreenState extends State<MainScreen> {
                   child: Wrap( //Wrap : 자동 줄바꿈
                     spacing: 1.0, //도트 사이의 간격
                     runSpacing: 2.0, //줄 사이의 간격
-                    children: List.generate(
+                    children: events
+                        .where((event) => event.isChecked)
+                        .map((event){
+
+                          final color = AppColors().colorMap[event.color] ?? Colors.black;
+
+                          return Container(
+                            width: 7.0,
+                            height: 7.0,
+                            margin: EdgeInsets.only(right: 2.0),
+                            decoration: BoxDecoration(
+                              color: color,
+                              shape: BoxShape.circle,
+                            ),
+                          );
+                    }).toList(),
+
+                    /*List.generate(
                         events.length,
                         (index){
                           final event = events[index];
-                          final color = AppColors().colorMap[event.color] ?? Colors.white;
+                          final color = AppColors().colorMap[event.color] ?? Colors.black;
+
                           return Container(
                             width: 7.0,
                             height: 7.0,
@@ -239,7 +339,7 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                           );
                         }
-                    ),
+                    ),*/
                   ),
                 )
             );

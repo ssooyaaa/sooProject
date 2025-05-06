@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../app_http/today_routine_http.dart';
 import '../config/app_colors.dart';
-import '../model/event.dart';
+import '../model/user_model.dart';
+import '../vo/event.dart';
+import '../vo/today_routine.dart';
 
 
 
@@ -13,6 +18,7 @@ class CalendarWidget extends StatefulWidget {
   void Function(DateTime selectedDay) onDateSelected;
   CalendarFormat calendarFormat;
   void Function(CalendarFormat)? onFormatChanged;
+  void Function(DateTime focusedDay) onPageChanged;
 
   CalendarWidget({
     required this.eventLoader,
@@ -20,6 +26,7 @@ class CalendarWidget extends StatefulWidget {
     required this.onDateSelected,
     required this.calendarFormat,
     this.onFormatChanged,
+    required this.onPageChanged
   });
 
 
@@ -49,6 +56,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       lastDay: DateTime(2030,12,31),
       //날짜 선택시 호출될 콜백 함수 설정
       onDaySelected: onDaySelected,
+      //월 또는 주가 변경되면 호출되는 콜백
+      onPageChanged: onMonthChanged,
       //특정 날짜가 선택된 날짜와 동일한지 판단
       selectedDayPredicate: (date){
         return isSameDay(selectedDate, date);
@@ -101,7 +110,21 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     setState(() {
       selectedDate = selectedDay;
       focusedDate = focusedDay;
+
     });
     widget.onDateSelected(selectedDay);
   }
+
+  // 월 변경 시 호출
+  void onMonthChanged(DateTime date) {
+    setState(() {
+      selectedDate = date;
+      focusedDate = date;
+    });
+
+    widget.onPageChanged(date);
+
+  }
+
+
 }
