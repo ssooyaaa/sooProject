@@ -81,7 +81,7 @@ class _RountineListScreenState extends State<RountineListScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black), // 뒤로가기 아이콘
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => BottomWidget(bottomSelectedIdx: 0)),
             );

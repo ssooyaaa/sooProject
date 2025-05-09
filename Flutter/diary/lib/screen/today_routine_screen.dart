@@ -60,8 +60,14 @@ class _TodayRoutineScreenState extends State<TodayRoutineScreen> {
 
 
     print('routineList:${routineList.length}');
-    print('today:${todayRoutineList.length}');
+    print('today:${todayRoutineList}');
     if(routineList.length != todayRoutineList.length){
+
+      //저장되어있던 todayRoutine 삭제 후, 재저장
+      for(int i=0;i<todayRoutineList.length;i++){
+        await TodayRoutineHttp.delTodayRoutine(tr: todayRoutineList[i]);
+      }
+
       for(int i=0;i<routineList.length;i++){
         TodayRoutine tr = TodayRoutine(
           routineIdx: routineList[i].routineIdx,
