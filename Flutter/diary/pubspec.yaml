@@ -50,6 +50,13 @@ dependencies:
   image: ^3.0.1
   carousel_slider: ^5.0.0
   exif: ^3.0.1
+  google_sign_in: ^6.3.0
+  webview_flutter: ^4.0.1
+  youtube_player_flutter: ^9.1.1
+  flutter_local_notifications: ^19.2.1
+  cached_network_image: ^3.4.1
+  flutter_cache_manager: ^3.4.1
+  permission_handler: ^12.0.0+1
 
 
 dev_dependencies:
@@ -74,8 +81,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/User.jpg
+    - assets/images/User.jpg
     - assets/images/diaryLogo.jpg
+    - assets/images/google.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

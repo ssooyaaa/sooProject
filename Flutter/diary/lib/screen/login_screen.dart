@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:diary/app_http/user_http.dart';
 import 'package:diary/config/app_config.dart';
 import 'package:diary/model/user_model.dart';
@@ -7,7 +9,9 @@ import 'package:diary/screen/main_screen.dart';
 import 'package:diary/screen/save_user/save_user_screen.dart';
 import 'package:diary/widget/app_logo.dart';
 import 'package:diary/widget/bottom_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fireUser;
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -64,6 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +158,32 @@ class _LoginScreenState extends State<LoginScreen> {
                   elevation: 0,
                 ),
               ),
+
+              SizedBox(height: 10,),
+
+              /*ElevatedButton(
+                onPressed: (){
+                  //todo 구글 로그인 구현
+                  signInWithGoogle();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/images/google.png', width: 20),
+                    SizedBox(width: 10,),
+                    Text('Google 로그인', style: TextStyle(fontWeight: FontWeight.bold),),
+                  ],
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  minimumSize: Size(double.infinity, 50),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                    side: BorderSide(color: Colors.black87, width: 0.7),
+                  ),
+                ),
+              ),*/
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

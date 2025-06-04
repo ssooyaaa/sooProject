@@ -8,6 +8,7 @@ class Diary {
   String imgUrl = '';
   String storageRefer = '';
   String savedDate = '';
+  String songUrl = '';
 
 
   Diary({
@@ -18,6 +19,7 @@ class Diary {
     this.imgUrl = '',
     this.savedDate = '',
     this.storageRefer = '',
+    this.songUrl = '',
   });
 
   factory Diary.fromJson(Map<String, dynamic> map){
@@ -29,6 +31,7 @@ class Diary {
       imgUrl: map['img_url']??'',
       savedDate: map['saved_date']??'',
       storageRefer: map['storage_ref']??'',
+      songUrl: map['song_url']??'',
     );
   }
 

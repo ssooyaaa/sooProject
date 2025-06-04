@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../LocalNotification.dart';
 import '../model/routine_model.dart';
 import '../vo/event.dart';
 import '../vo/today_routine.dart';
@@ -46,6 +47,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Map<DateTime, List<Event>> events = {};
 
+
   @override
   void initState(){
     super.initState();
@@ -60,8 +62,14 @@ class _MainScreenState extends State<MainScreen> {
     DateTime endDate = DateTime.utc(date.year, date.month+1, date.day);
     //await Provider.of<RoutineModel>(context, listen: false).setRoutineList(userIdx: loginIdx);
 
-    monthTodayRoutines = await TodayRoutineHttp.getMonthRoutines(startDate: startDate, endDate: endDate, userIdx: loginIdx);
+    monthTodayRoutines = await Provider.of<TodayRoutineModel>(context, listen: false).setMonthlyTodayRoutineList(startDate: startDate, endDate: endDate, userIdx: loginIdx);
 
+    dataFormatForTodayRoutine();
+  }
+
+
+  //todo DataFormat
+  void dataFormatForTodayRoutine(){
     var dateFormat = DateFormat('yyyy-MM-dd');
 
     events.clear();
@@ -71,9 +79,9 @@ class _MainScreenState extends State<MainScreen> {
       List<String> dateParts = date.split('-');
 
       DateTime savedDate = DateTime.utc(
-        int.parse(dateParts[0]),
-        int.parse(dateParts[1]),
-        int.parse(dateParts[2])
+          int.parse(dateParts[0]),
+          int.parse(dateParts[1]),
+          int.parse(dateParts[2])
       );
 
       String routine = one.routines;
@@ -139,13 +147,6 @@ class _MainScreenState extends State<MainScreen> {
       //루틴 화면 -> +버튼 루틴 추가 변경
       appBar: CustomAppBar(
         actions : [
-          /*IconButton(
-              onPressed: (){
-                print('chart click');
-                print(selectedDate);
-              },
-              icon: Icon(Icons.bar_chart)
-          ),*/
 
           IconButton(
               onPressed: (){
@@ -155,7 +156,8 @@ class _MainScreenState extends State<MainScreen> {
                 );
               },
               icon: Icon(Icons.add)
-          )
+          ),
+
         ]
       ),
 

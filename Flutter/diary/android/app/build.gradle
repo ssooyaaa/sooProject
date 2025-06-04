@@ -1,3 +1,18 @@
+buildscript {
+    ext.kotlin_version = "1.7.10" // Kotlin 버전을 명시적으로 설정
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:8.0.2" // 사용 중인 Gradle 버전에 따라 적절히 변경
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.gms:google-services:4.3.15"
+    }
+}
+
+
+
 plugins {
     id "com.android.application"
     // START: FlutterFire Configuration
@@ -35,6 +50,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+
+        // Core library desugaring 활성화
+        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
@@ -51,6 +69,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -64,4 +83,14 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+//!코틀린 버전과 일치
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin_version}"
+//! 이 아래 부분은 디슈거링을 true로 했을 떄 추가
+    implementation 'androidx.window:window:1.0.0'
+    implementation 'androidx.window:window-java:1.0.0'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+
 }

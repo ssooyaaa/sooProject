@@ -9,13 +9,15 @@ class Story{
   String content;
   int diaryIdx;
   List<DiaryImg> imgList;
+  String songUrl;
 
   Story({
     required this.title,
     required this.imgUrl,
     required this.content,
     required this.diaryIdx,
-    required this.imgList
+    required this.imgList,
+    required this.songUrl,
   });
 
 
@@ -26,7 +28,9 @@ class Story{
       content: map['content']??'',
       diaryIdx: map['diary_idx']??0,
       imgList: map['img_list']??[],
+      songUrl: map['song_url']??'',
     );
   }
+
 
 }

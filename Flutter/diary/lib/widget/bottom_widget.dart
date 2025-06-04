@@ -3,6 +3,8 @@ import 'package:diary/screen/diary_screen.dart';
 import 'package:diary/screen/main_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../screen/copy_diary_screen.dart';
+
 
 class BottomWidget extends StatefulWidget {
   int bottomSelectedIdx;

@@ -10,13 +10,33 @@ class TodayRoutineModel extends ChangeNotifier{
 
 
   List<TodayRoutine> todayRoutineList = [];
+  List<TodayRoutine> monthlyTodayRoutineList = [];
 
 
-  Future<void> setTodayRoutineList({required String savedDate, required int userIdx}) async{
+  Future<List<TodayRoutine>> setTodayRoutineList({required String savedDate, required int userIdx}) async{
     List<TodayRoutine> chunk = await TodayRoutineHttp.getTodayRoutines(savedDate: savedDate, userIdx: userIdx);
 
     todayRoutineList = chunk; //기존 데이터 초기화 후 새로운 데이터 설정
     notifyListeners();
+
+    return todayRoutineList;
   }
+
+  //달마다 가져오기
+  Future<List<TodayRoutine>> setMonthlyTodayRoutineList(
+      {required DateTime startDate,
+        required DateTime endDate,
+        required int userIdx}
+      ) async{
+
+    List<TodayRoutine> chunk = await TodayRoutineHttp.getMonthRoutines(startDate: startDate, endDate: endDate, userIdx: userIdx);
+
+    monthlyTodayRoutineList = chunk;
+    notifyListeners();
+
+    return monthlyTodayRoutineList;
+  }
+
+
 
 }

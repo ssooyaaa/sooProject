@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:diary/app_http/diary_http.dart';
+import 'package:diary/app_http/youtube_http.dart';
 import 'package:diary/config/app_colors.dart';
 import 'package:diary/config/app_config.dart';
 import 'package:diary/model/user_model.dart';
@@ -12,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../vo/diary.dart';
 import '../vo/diary_img.dart';
@@ -69,6 +72,13 @@ class _WriteDiaryScreenState extends State<WriteDiaryScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController textController = TextEditingController();
 
+/*
+  late final WebViewController webController;
+  String? savedUrl;*/
+
+
+  TextEditingController urlController = TextEditingController();
+  String url = '';
 
   @override
   void initState() {
@@ -76,7 +86,40 @@ class _WriteDiaryScreenState extends State<WriteDiaryScreen> {
     super.initState();
 
     init();
+/*
+    //_loadSavedUrl();
+
+    // WebViewController 초기화
+    webController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted) // JavaScript 허용
+      //..setBackgroundColor(Colors.white) // 배경색 설정
+      ..loadRequest(Uri.parse('https://www.youtube.com')); // 초기 URL 로드
+
+  */
   }
+
+/*
+
+  // SharedPreferences에서 저장된 URL 불러오기
+  Future<void> _loadSavedUrl() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      savedUrl = prefs.getString('savedUrl');
+    });
+  }
+
+  // 현재 URL 가져와서 저장하기
+  Future<void> _saveCurrentUrl() async {
+    final currentUrl = await webController.currentUrl(); // 현재 URL 가져오기
+    if (currentUrl != null) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('savedUrl', currentUrl);
+      setState(() {
+        savedUrl = currentUrl;
+      });
+    }
+  }
+*/
 
 
 
@@ -91,11 +134,13 @@ class _WriteDiaryScreenState extends State<WriteDiaryScreen> {
         diary = result[0] as Diary;
         imgs = result[1] as List<DiaryImg>;
 
+
         imgCount = imgs.length;
 
         setState(() {
           titleController.text = diary.title?? '';
           textController.text = diary.content?? '';
+          url = diary.songUrl?? '';
 
           if(imgs.length>0){
             for(int i=0;i<imgs.length;i++){
@@ -306,6 +351,68 @@ class _WriteDiaryScreenState extends State<WriteDiaryScreen> {
                     ),
                   ),
 
+                  //todo youtube 노래선택
+                  //webView는 크기 조정 필요
+
+                  SizedBox(height: 40.0,),
+
+                  buildTitle(titleText: 'SONG', bottomHeight: 5.0),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          cursorColor: Colors.black,
+                          style: TextStyle(fontSize: 17),
+                          decoration: const InputDecoration(
+                            hintText: '오늘을 표현하는 노래 (ex) 이무진-청춘만화)',
+                          ),
+                          controller: urlController,
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: () async{
+
+                            if(urlController.text.isEmpty){
+                              url = '';
+                            }else{
+                              String searchText = urlController.text + " 음원";
+                              url = await YoutubeHttp.selectYoutubeVideo(searchText);
+                            }
+                            print('url:$url');
+                            setState(() {
+
+                            });
+                          },
+                          icon: Icon(Icons.search),
+                      )
+                    ],
+                  ),
+
+                  SizedBox(height: 10,),
+                  Text('YouTube URL : $url'),
+
+                  /*IconButton(
+                    icon: Icon(Icons.save),
+                    onPressed: _saveCurrentUrl, // URL 저장
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'Saved URL: ${savedUrl ?? "No URL saved"}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),*/
+
+                  /*SizedBox(
+                    height: 300,
+                    child: WebViewWidget(
+                      controller: webController,
+                    ),
+                  ),*/
+
+
                 ],
 
               ),
@@ -377,6 +484,7 @@ class _WriteDiaryScreenState extends State<WriteDiaryScreen> {
                   }
 
                   bool isSaved;
+
                   //todo diary/diary_img 저장
                   if(widget.diaryIdx>0){
 
@@ -388,6 +496,7 @@ class _WriteDiaryScreenState extends State<WriteDiaryScreen> {
                       savedDate: today.toString(),
                       imgUrlList: imgUrlList,
                       storageRefList: storageRefList,
+                      songUrl: url
                     );
 
                   }else{
@@ -396,8 +505,9 @@ class _WriteDiaryScreenState extends State<WriteDiaryScreen> {
                       title: titleController.text,
                       content: textController.text,
                       savedDate: today.toString(),
-                      imgUrlList: imgUrlList,
-                      storageRefList: storageRefList,
+                      imgUrlList: imgUrlList.isNotEmpty ? imgUrlList:[],
+                      storageRefList: storageRefList.isNotEmpty ? storageRefList:[],
+                      songUrl: url,
                     );
                   }
 
@@ -413,6 +523,7 @@ class _WriteDiaryScreenState extends State<WriteDiaryScreen> {
                         : '오늘의 일기가 저장되었습니다'
                     );
                   }else{
+                    print('error:$imgUrlList');
                     AppConfig.showToast(text: '다시 시도해주세요');
                   }
 
@@ -440,9 +551,10 @@ class _WriteDiaryScreenState extends State<WriteDiaryScreen> {
 }
 
 
-Widget buildTitle({required String titleText}){
+
+Widget buildTitle({required String titleText, double bottomHeight = 18.0}){
   return Padding(
-    padding: EdgeInsets.only(bottom: 18.0),
+    padding: EdgeInsets.only(bottom: bottomHeight),
     child: Row(
       children: [
         Text('$titleText', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),

@@ -1,6 +1,5 @@
 import 'dart:ffi';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart' as slider;
 import 'package:diary/app_http/diary_http.dart';
 import 'package:diary/config/app_colors.dart';
@@ -13,7 +12,6 @@ import 'package:diary/screen/write_diary_screen.dart';
 import 'package:diary/widget/app_bar.dart';
 import 'package:diary/widget/calendar_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -25,14 +23,14 @@ import '../vo/event.dart';
 import '../widget/bottom_widget.dart';
 import '../widget/floating_button.dart';
 
-class DiaryScreen extends StatefulWidget {
-  const DiaryScreen({super.key});
+class CopyDiaryScreen extends StatefulWidget {
+  const CopyDiaryScreen({super.key});
 
   @override
-  State<DiaryScreen> createState() => _DiaryScreenState();
+  State<CopyDiaryScreen> createState() => _DiaryScreenState();
 }
 
-class _DiaryScreenState extends State<DiaryScreen> {
+class _DiaryScreenState extends State<CopyDiaryScreen> {
 
   //선택된 날짜 관리변수
   DateTime selectedDate = DateTime.utc(
@@ -203,18 +201,18 @@ class _DiaryScreenState extends State<DiaryScreen> {
         actions: [
 
           IconButton(
-              onPressed: (){
-                setState(() {
-                  newFormat = (newFormat == CalendarFormat.month)
-                      ? CalendarFormat.week : CalendarFormat.month;
-                });
-              },
-              //아이콘 변경
-              icon: Icon(
-                newFormat == CalendarFormat.month
+            onPressed: (){
+              setState(() {
+                newFormat = (newFormat == CalendarFormat.month)
+                    ? CalendarFormat.week : CalendarFormat.month;
+              });
+            },
+            //아이콘 변경
+            icon: Icon(
+              newFormat == CalendarFormat.month
                   ? Icons.zoom_in_map
                   : Icons.zoom_out_map,
-              ),
+            ),
           ),
           IconButton(
               onPressed: (){
@@ -442,10 +440,10 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
                 },
                 icon: Icon(
-                  youtubeController.value.isPlaying
-                    ? Icons.music_off
-                    : Icons.music_note,
-                  size:15
+                    youtubeController.value.isPlaying
+                        ? Icons.music_off
+                        : Icons.music_note,
+                    size:15
                 ),
               ),
               Expanded(
@@ -476,90 +474,84 @@ class _DiaryScreenState extends State<DiaryScreen> {
           Expanded(
             child: SingleChildScrollView(
               child:Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
 
-                    Text('" $storyTitlesForSelectedDate "', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, ),),
-                    SizedBox(height: 20,),
-                    Text('$storyContentForSelectedDate'),
-                    SizedBox(height: 20,),
+                      Text('" $storyTitlesForSelectedDate "', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, ),),
+                      SizedBox(height: 20,),
+                      Text('$storyContentForSelectedDate'),
+                      SizedBox(height: 20,),
 
-                    newFormat == CalendarFormat.month
-                        ? (storyImgUrlForSelectedDate != null && storyImgUrlForSelectedDate.isNotEmpty
-                        ? ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      child: CachedNetworkImage( ///Image.network에서 cachedNetworkImage로 변경
-                        imageUrl: '$storyImgUrlForSelectedDate',
-                        cacheManager: CustomCacheManager.instance,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.width * 0.8,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => Center(child: CircularProgressIndicator(),),
-                        /*loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child; // 이미지가 다 로드되면 그대로 표시
-                          }
-                          return Center(
-                            child: CircularProgressIndicator(), // 로딩 중에는 로딩 인디케이터 표시
-                          );
-                        },*/
-                        errorWidget: (context, url, error) => Icon(Icons.error, size: 50, color: Colors.red),
-                        /*errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                          return Icon(Icons.error, size: 50, color: Colors.red); // 이미지 로드 실패 시 아이콘 표시
-                        },*/
-                      ),
-                    )
-                        : SizedBox()) // 이미지가 null이거나 비어있을 경우 빈 위젯 표시
-                  : (storyImgsUrlListForSelectedDate != null && storyImgsUrlListForSelectedDate.isNotEmpty
-                    ? slider.CarouselSlider(
-                      items: storyImgsUrlListForSelectedDate.map((imageUrl) {
-                        return Container(
-                          margin: EdgeInsets.all(5.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                            child: CachedNetworkImage( //Image.network에서 cachedNetworkImage로 변경
-                              imageUrl: imageUrl.imgUrl,
-                              fit: BoxFit.cover,
-                              cacheManager: CustomCacheManager.instance,
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              height: MediaQuery.of(context).size.width * 0.9,
-                              placeholder: (context, url) => Center(child: CircularProgressIndicator(),),
-                              errorWidget: (context, url, error) => Icon(Icons.error, size: 50, color: Colors.red),
-                              /*loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child; // 이미지가 다 로드되면 그대로 표시
-                                }
-                                return Center(
-                                  child: CircularProgressIndicator(), // 로딩 중에는 로딩 인디케이터 표시
-                                );
-                              },
-                              errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                                return Icon(Icons.error, size: 50, color: Colors.red); // 이미지 로드 실패 시 아이콘 표시
-                              },*/
+                      newFormat == CalendarFormat.month
+                          ? (storyImgUrlForSelectedDate != null && storyImgUrlForSelectedDate.isNotEmpty
+                          ? ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        child: Image.network(
+                          '$storyImgUrlForSelectedDate',
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.width * 0.8,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child; // 이미지가 다 로드되면 그대로 표시
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(), // 로딩 중에는 로딩 인디케이터 표시
+                            );
+                          },
+                          errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                            return Icon(Icons.error, size: 50, color: Colors.red); // 이미지 로드 실패 시 아이콘 표시
+                          },
+                        ),
+                      )
+                          : SizedBox()) // 이미지가 null이거나 비어있을 경우 빈 위젯 표시
+                          : (storyImgsUrlListForSelectedDate != null && storyImgsUrlListForSelectedDate.isNotEmpty
+                          ? slider.CarouselSlider(
+                        items: storyImgsUrlListForSelectedDate.map((imageUrl) {
+                          return Container(
+                            margin: EdgeInsets.all(5.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                              child: Image.network(
+                                imageUrl.imgUrl,
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                height: MediaQuery.of(context).size.width * 0.9,
+                                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child; // 이미지가 다 로드되면 그대로 표시
+                                  }
+                                  return Center(
+                                    child: CircularProgressIndicator(), // 로딩 중에는 로딩 인디케이터 표시
+                                  );
+                                },
+                                errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                  return Icon(Icons.error, size: 50, color: Colors.red); // 이미지 로드 실패 시 아이콘 표시
+                                },
+                              ),
                             ),
-                          ),
-                        );
-                      }).toList(),
-                      options: slider.CarouselOptions(
-                        height: 300, // 슬라이드의 높이 설정
-                        enlargeCenterPage: true, // 중앙에 크게 보이도록 설정
-                        autoPlay: true, // 자동 재생 설정
-                        autoPlayInterval: Duration(seconds: 3), // 슬라이드 간의 간격 설정
-                        autoPlayAnimationDuration: Duration(milliseconds: 800), // 애니메이션 속도 설정
-                        enableInfiniteScroll: true, // 무한 스크롤 활성화
-                        viewportFraction: 0.8, // 보이는 슬라이드의 비율 설정
-                      ),
-                    )
-                    : SizedBox()), // 이미지 리스트가 null이거나 비어있을 경우 빈 위젯 표시
+                          );
+                        }).toList(),
+                        options: slider.CarouselOptions(
+                          height: 300, // 슬라이드의 높이 설정
+                          enlargeCenterPage: true, // 중앙에 크게 보이도록 설정
+                          autoPlay: true, // 자동 재생 설정
+                          autoPlayInterval: Duration(seconds: 3), // 슬라이드 간의 간격 설정
+                          autoPlayAnimationDuration: Duration(milliseconds: 800), // 애니메이션 속도 설정
+                          enableInfiniteScroll: true, // 무한 스크롤 활성화
+                          viewportFraction: 0.8, // 보이는 슬라이드의 비율 설정
+                        ),
+                      )
+                          : SizedBox()), // 이미지 리스트가 null이거나 비어있을 경우 빈 위젯 표시
 
 
 
 
-                  ],
-                )
+                    ],
+                  )
               ),
 
 
@@ -579,23 +571,23 @@ class _DiaryScreenState extends State<DiaryScreen> {
         markerBuilder: (context, date, events){
           if(events.isNotEmpty){
             return Align( //Align : 도트가 셀의 상단에 맞춰서 배치되도록
-                alignment: Alignment.topCenter,
-                child: Transform.translate(
-                  offset: Offset(0, -5),
+              alignment: Alignment.topCenter,
+              child: Transform.translate(
+                offset: Offset(0, -5),
 
-                  child: Icon(
-                    Icons.favorite,
-                    color: Colors.redAccent,
-                    size: 20.0,
-                    /*shadows: [
+                child: Icon(
+                  Icons.favorite,
+                  color: Colors.redAccent,
+                  size: 20.0,
+                  /*shadows: [
                       Shadow(
                         blurRadius: 3.0,
                         color: Colors.black45,
                         offset : Offset(2.0, 2.0), //그림자 위치
                       )
                     ],*/
-                  ),
                 ),
+              ),
             );
           }
           //event가 없는 경우 빈 위젯 반환
@@ -603,19 +595,4 @@ class _DiaryScreenState extends State<DiaryScreen> {
         }
     );
   }
-
-
-}
-
-
-class CustomCacheManager{
-  static final instance = CacheManager(
-      Config(
-        'customCacheKey',
-        stalePeriod: const Duration(days: 30), // 캐시된 파일의 유효 기간
-        maxNrOfCacheObjects: 500, // 캐시 파일 최대 수
-      )
-  );
-
-
 }

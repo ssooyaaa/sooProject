@@ -18,6 +18,7 @@ class DiaryHttp{
     required String savedDate,
     required List<String> imgUrlList,
     required List<String> storageRefList,
+    required String songUrl,
   }) async {
     var requestUrl = '${AppConfig.apiAddress}/api/diary/save';
     Uri uri = Uri.parse(requestUrl);
@@ -32,6 +33,7 @@ class DiaryHttp{
         'saved_date': savedDate,
         'img_urls': imgUrlList,
         'storage_refs': storageRefList,
+        'song_url': songUrl,
       })
     );
 
@@ -122,6 +124,11 @@ class DiaryHttp{
 
     var data = jsonDecode(utf8.decode(response.bodyBytes));
 
+    // 데이터가 비어 있으면 빈 리스트를 반환
+    if (data == null || data.isEmpty) {
+      return [];  // 데이터가 없으면 빈 리스트 반환
+    }
+
     List<DiaryImg> imgs = [];
     for (var one in data) {
       DiaryImg di = DiaryImg.fromJson(one);
@@ -141,7 +148,7 @@ class DiaryHttp{
     var diary = await getDiary;
     var images = await getImgs;
 
-    if(diary!=null && images.isNotEmpty){
+    if(diary!=null){
       return [diary, images];
     }else{
       return [];
@@ -158,6 +165,7 @@ class DiaryHttp{
     required String savedDate,
     required List<String> imgUrlList,
     required List<String> storageRefList,
+    required String songUrl,
   }) async {
     var requestUrl = '${AppConfig.apiAddress}/api/diary/modifyTodayDiary';
     Uri uri = Uri.parse(requestUrl);
@@ -173,6 +181,7 @@ class DiaryHttp{
           'saved_date': savedDate,
           'img_urls': imgUrlList,
           'storage_refs': storageRefList,
+          'song_url': songUrl
         })
     );
 
@@ -182,7 +191,23 @@ class DiaryHttp{
       return false;
     }
 
+  }
 
+  //todo 오늘의 다이어리 삭제
+  static Future<bool> delSelectedDiary({required int diaryIdx}) async {
+    var requestUrl = '${AppConfig.apiAddress}/api/diary/delSelectedDiary';
+    Uri uri = Uri.parse(requestUrl);
+    var urlParam = uri.replace(queryParameters: {
+      'diary_idx': diaryIdx.toString(),
+    });
+
+    var response = await http.post(urlParam);
+
+
+    if(response.body=='ok'){
+     return true;
+   }else
+     return false;
   }
 
 }

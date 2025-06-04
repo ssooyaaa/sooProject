@@ -52,19 +52,41 @@ class _TodayRoutineScreenState extends State<TodayRoutineScreen> {
   }
 
   Future<void> initializeTodayRoutineList() async{
-    await Provider.of<RoutineModel>(context, listen: false).setRoutineList(userIdx: loginIdx);
-    await Provider.of<TodayRoutineModel>(context, listen: false).setTodayRoutineList(savedDate: today.toString(), userIdx: loginIdx);
+    routineList = await Provider.of<RoutineModel>(context, listen: false).setRoutineList(userIdx: loginIdx);
+    todayRoutineList = await Provider.of<TodayRoutineModel>(context, listen: false).setTodayRoutineList(savedDate: today.toString(), userIdx: loginIdx);
 
-    routineList = await Provider.of<RoutineModel>(context, listen: false).routineList;
+    /*routineList = await Provider.of<RoutineModel>(context, listen: false).routineList;
     todayRoutineList = await Provider.of<TodayRoutineModel>(context, listen: false).todayRoutineList;
+*/
 
-
-    print('routineList:${routineList.length}');
-    print('today:${todayRoutineList}');
     if(routineList.length != todayRoutineList.length){
 
       //저장되어있던 todayRoutine 삭제 후, 재저장
-      for(int i=0;i<todayRoutineList.length;i++){
+      final existingRoutineIds = todayRoutineList.map((routine) => routine.routineIdx).toSet();
+      final newRoutineIds = routineList.map((routine) => routine.routineIdx).toSet();
+
+      // 추가가 필요한 루틴
+      final routinesToAdd = routineList.where((routine) => !existingRoutineIds.contains(routine.routineIdx));
+
+      // 삭제가 필요한 루틴
+      final routinesToDelete = todayRoutineList.where((routine) => !newRoutineIds.contains(routine.routineIdx));
+
+      // 삭제 실행
+      for (var routine in routinesToDelete) {
+        await TodayRoutineHttp.delTodayRoutine(tr: routine);
+      }
+
+      // 추가 실행
+      for (var routine in routinesToAdd) {
+        TodayRoutine tr = TodayRoutine(
+          routineIdx: routine.routineIdx,
+          savedDate: today.toString(),
+          isChecked: false,
+        );
+        await TodayRoutineHttp.saveTodayRoutine(todayRoutine: tr);
+      }
+
+      /*for(int i=0;i<todayRoutineList.length;i++){
         await TodayRoutineHttp.delTodayRoutine(tr: todayRoutineList[i]);
       }
 
@@ -75,16 +97,12 @@ class _TodayRoutineScreenState extends State<TodayRoutineScreen> {
           isChecked: false
         );
         await TodayRoutineHttp.saveTodayRoutine(todayRoutine: tr);
-      };
+      };*/
       await Provider.of<TodayRoutineModel>(context, listen: false).setTodayRoutineList(savedDate: today.toString(), userIdx: loginIdx);
     }
 
 
     todayRoutineList = await Provider.of<TodayRoutineModel>(context, listen: false).todayRoutineList;
-
-    print('routineList:${routineList.length}');
-    print('today:${todayRoutineList.length}');
-
 
     //checkedList를 routineList와 같은 길이로 초기화
     //checkedList = List<bool>.filled(todayRoutineList, false);
@@ -177,6 +195,7 @@ class _TodayRoutineScreenState extends State<TodayRoutineScreen> {
                   }
 
                   if(allSuccess){
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('오늘의 루틴이 저장되었습니다.')),
                     );

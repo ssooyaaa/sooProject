@@ -44,23 +44,23 @@ class _RountineListScreenState extends State<RountineListScreen> {
 
     loginIdx = Provider.of<UserModel>(context, listen: false).me!.userIdx;
 
-    Provider.of<RoutineModel>(context, listen: false)
-        .setRoutineList(userIdx: loginIdx)
-        .then((result) {
-      setState(() {
-        routineList = result;
-        isLoading = false; // 로딩 상태 해제
-      });
-    });
-
+    initializeRoutineList();
   }
+
+  Future<void> initializeRoutineList() async{
+    await Provider.of<RoutineModel>(context, listen: false).setRoutineList(userIdx: loginIdx);
+
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
 
-    //routineList = Provider.of<RoutineModel>(context, listen: false).setRoutineList(userIdx: loginIdx) as List<Routine>;
-
-    //routineList = Provider.of<RoutineModel>(context, listen: false).routineList;
+    routineList = Provider.of<RoutineModel>(context, listen: false).routineList;
     routineCount = routineList.length;
 
     //input Controller
@@ -137,14 +137,8 @@ class _RountineListScreenState extends State<RountineListScreen> {
                                       onPressed: () async{
                                         int idx = routineList[index].routineIdx;
 
-
                                         //todo 루틴 삭제하기(api)
                                         var response = await RoutineHttp.changeRoutineColor(routineIdx: idx);
-                                        //todo 루틴 삭제하기(상태관리)
-                                        if(response){
-                                          Provider.of<RoutineModel>(context, listen: false).delRoutineInList(index: index);
-                                        }
-
 
                                         if(response){
                                           //todo 오늘의 루틴 삭제하기(api)
@@ -262,6 +256,8 @@ class _RountineListScreenState extends State<RountineListScreen> {
                                                           setDialogState(() {
                                                             selectedColor = entry.key;
                                                           });
+                                                          print('entry.key :${entry.key}');
+                                                          print('selected : $selectedColor');
                                                         },
 
                                                         child: Container(
@@ -330,19 +326,13 @@ class _RountineListScreenState extends State<RountineListScreen> {
                                 );
 
                                 var response = await RoutineHttp.saveRoutine(routine: routine);
-                                //todo 루틴 저장
-                                if(response != 0){
-                                  Provider.of<RoutineModel>(context, listen: false).addRoutineInList(routine: routine);
-                                }
 
-
-                                //todo 오늘의 루틴에 현재 루틴 반영
                                 if(response != 0){
 
                                   TodayRoutine todayRoutine = TodayRoutine(
-                                    routineIdx: response ?? 0,
-                                    savedDate: today.toString(),
-                                    isChecked: false
+                                      routineIdx: response ?? 0,
+                                      savedDate: today.toString(),
+                                      isChecked: false
                                   );
 
                                   var res = await TodayRoutineHttp.saveTodayRoutine(todayRoutine: todayRoutine);
@@ -352,6 +342,9 @@ class _RountineListScreenState extends State<RountineListScreen> {
                                       SnackBar(content: Text('루틴이 저장되었습니다.')),
                                     );
 
+                                    setState(() {
+                                      initializeRoutineList();
+                                    });
                                     Navigator.of(context).pop(true); //창 끄기
                                   }
 
@@ -379,6 +372,245 @@ class _RountineListScreenState extends State<RountineListScreen> {
             ],
           );
         }),
+
+        /*Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if(routineList.isEmpty)
+              Text(
+                '아직 추가된 루틴이 없습니다.',
+              )
+            else
+              Expanded(
+                child: ListView.builder(
+                  itemCount: routineList.length,
+                  itemBuilder: (context, index){
+                    final routine = routineList[index];
+                    final selectedColor = colorList[index];
+                    final color = AppColors().colorMap[selectedColor];
+
+                    return Dismissible(
+                      key: Key(routine),
+                      direction: DismissDirection.endToStart,
+
+                      //팝업창 띄우기
+                      confirmDismiss: (direction) async{
+                        return await showDialog(
+                            context: context,
+                            builder: (BuildContext context){
+                              return AlertDialog(
+                                title: Text('삭제 확인', style: TextStyle(fontWeight: FontWeight.bold),),
+                                content: Text('${routine}을(를) 삭제하시겠습니까?'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: (){
+                                      Navigator.of(context).pop(false); //삭제 취소
+                                    },
+                                    child: Text('취소',
+                                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: (){
+                                      Navigator.of(context).pop(true); //삭제
+                                    },
+                                    child: Text('삭제',
+                                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+
+                                ],
+                              );
+                            }
+                        );
+                      },
+
+                      onDismissed: (direction){
+                        setState(() {
+                          routineList.removeAt(index);
+                        });
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('${routine} 삭제되었습니다.')),
+                        );
+                      },
+
+                      background: Container(
+                        color: AppColors.basicColor,
+                        padding: EdgeInsets.only(right: 16.0),
+                        alignment: Alignment.centerRight,
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.black,
+                        ),
+                      ),
+
+                      child: ListTile(
+                        title: Container(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.circle,
+                                  color: color,
+                                ),
+                                SizedBox(width: 8.0,),
+                                Text(routine),
+                              ],
+                            )
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+            LongButton(
+              onTap: (){
+                //showDialog(팝업창)
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,//팝업 밖 터치 -> 팝업창 사라짐
+                    builder: (BuildContext context){
+                      return AlertDialog(
+                        content: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height/2,
+
+                          child: Column(
+                            children: [
+                              Expanded(
+                                  child: Container(
+                                     child: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+
+                                          //루틴 제목, 루틴 색상 결정, 버튼
+                                          SizedBox(height: 10.0,),
+                                          buildTitle(titleText: 'ROUTINE'),
+                                          AppInput(
+                                            width: double.infinity,
+                                            textEditingController: routineController,
+                                            hintText: '루틴 이름',
+                                          ),
+
+                                          SizedBox(height: 32.0,),
+                                          buildTitle(titleText: 'COLOR'),
+
+                                          StatefulBuilder(
+                                            builder: (context, setDialogState) {
+                                              return Wrap(
+                                                spacing: 8.0,//수평 간격
+                                                runSpacing: 8.0, // 수직 간격
+                                                alignment: WrapAlignment.center,
+                                                children: AppColors().colorMap.entries.map((entry){
+                                                  return GestureDetector(
+
+                                                    onTap: (){
+                                                      setDialogState(() {
+                                                        selectedColor = entry.key;
+                                                      });
+                                                      print('entry.key :${entry.key}');
+                                                      print('selected : $selectedColor');
+                                                    },
+
+                                                    child: Container(
+                                                      margin: EdgeInsets.all(8.0),
+                                                      width: 40,
+                                                      height: 40,
+                                                      decoration: BoxDecoration(
+                                                        color: entry.value,
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(
+                                                          color: selectedColor == entry.key
+                                                              ? Colors.black
+                                                              : Colors.transparent,
+                                                          width: 3.0,
+                                                        )
+                                                      ),
+                                                    ),
+
+                                                  );
+                                                }).toList(),
+                                              );
+                                            }
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              )
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: (){
+                              Navigator.of(context).pop(false); //창 끄기
+                            },
+                            child: Text('취소',
+                              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () async{
+
+                              //todo 루틴 저장 / 수정
+
+                              if(routineController.text.isEmpty){
+                                AppConfig.showToast(text: '루틴 이름을 적어주세요');
+                                return;
+                              }
+
+                              if(selectedColor.isEmpty){
+                                AppConfig.showToast(text: '색상을 선택해주세요');
+                                return;
+                              }
+
+                              print('루틴저장');
+
+                              Routine routine = Routine(
+                                userIdx: loginIdx ?? 0,
+                                routines: routineController.text,
+                                color: selectedColor
+                              );
+
+                              var response = await RoutineHttp.saveRoutine(routine: routine);
+
+
+                              if(response){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('루틴이 저장되었습니다.')),
+                                );
+
+                                setState(() {
+                                  routine = Routine();
+                                });
+                                Navigator.of(context).pop(true); //창 끄기
+                              }
+
+                            },
+                            child: Text('저장',
+                              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+
+                        ],
+                      );
+                    }
+                );
+              },
+              width: double.infinity,
+              child: Center(
+                child: Text('루틴 추가',
+                  style: TextStyle(color: Colors.black, fontSize:17, fontWeight: FontWeight.bold),
+                ),
+              ),
+              backgroundColor: AppColors.basicColor,
+            ),
+          ],
+        ),
+*/
 
       ),
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../LocalNotification.dart';
 import '../config/app_colors.dart';
 
 
@@ -23,6 +24,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
         elevation: 0,
         actions: [
           ...?actions, //페이지별 actions 리스트
+          /*IconButton(
+              onPressed: (){
+                LocalNotification.showSimpleNotification(
+                    title: '테스팅 11', body: ' 제발요', payload: "일반 푸시 알람 데이터");
+
+              },
+              icon: Icon(Icons.access_alarm)
+          ),*/
           IconButton(
               //todo 로그아웃 설정
               onPressed: (){
