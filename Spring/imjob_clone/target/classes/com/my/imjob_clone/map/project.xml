@@ -1,0 +1,100 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project">	
+	
+	<select id="getCount" resultType="Integer">
+		SELECT COUNT(*) FROM project
+	</select>
+	
+	<select id="getProjectAll" parameterType="HashMap" resultType="Project">
+		SELECT * FROM project
+		ORDER BY project_idx DESC
+		LIMIT #{start},#{cnt}
+	</select>
+	
+	<select id="getProjectByIdx" parameterType="Integer" resultType="Project">
+		SELECT p.title,
+			p.field,
+			p.detail_field,
+			p.location,
+			p.type,
+			p.duration,
+			p.price,
+			n.content
+		FROM project AS p
+		LEFT OUTER JOIN newWork AS n
+			ON p.newWork_idx = n.newWork_idx
+		WHERE p.project_idx=#{project_idx}
+	</select>
+	
+
+	<select id="searchProjectCount" parameterType="HashMap" resultType="Integer">
+		SELECT COUNT(*) FROM project
+		<trim prefix="WHERE" suffixOverrides="WHERE" prefixOverrides="AND | OR">
+			<if test="checkArray.size != 0">
+				AND field IN
+				<foreach item="item" index="index" collection="checkArray" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			
+			<if test="keyword != null and keyword != ''">
+				<choose>
+					<when test="selectOption != null and selectOption != ''">
+						<choose>
+							<when test="'title'.equals(selectOption)">
+								AND title LIKE CONCAT('%', #{keyword}, '%')
+							</when>
+							<when test="'content'.equals(selectOption)">
+								AND content LIKE CONCAT('%', #{keyword}, '%')
+							</when>
+						</choose>
+					</when>
+				</choose>
+			</if>
+		</trim>		
+	</select>
+	
+	
+	<select id="searchProjectList" parameterType="HashMap" resultType="Project">
+		SELECT * FROM project
+		<trim prefix="WHERE" suffixOverrides="WHERE" prefixOverrides="AND | OR">
+			<if test="checkArray.size != 0">
+				AND field IN
+				<foreach item="item" index="index" collection="checkArray" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			
+			<if test="keyword != null and keyword != ''">
+				<choose>
+					<when test="selectOption != null and selectOption != ''">
+						<choose>
+							<when test="'title'.equals(selectOption)">
+								AND title LIKE CONCAT('%', #{keyword}, '%')
+							</when>
+							<when test="'content'.equals(selectOption)">
+								AND content LIKE CONCAT('%', #{keyword}, '%')
+							</when>
+						</choose>
+					</when>
+				</choose>
+			</if>
+		</trim>
+		ORDER BY project_idx DESC
+		LIMIT #{start},#{cnt}		
+	</select>
+	
+	
+	<select id="getCheckedCount" parameterType="String" resultType="Integer">
+		SELECT COUNT(*) FROM project
+		WHERE field=#{field}
+	</select>
+	
+	<select id="getCheckedAll" parameterType="HashMap" resultType="Project">
+		SELECT * FROM project
+		WHERE field=#{field}
+		ORDER BY project_idx DESC
+		LIMIT #{start},#{cnt}
+	</select>
+
+</mapper>

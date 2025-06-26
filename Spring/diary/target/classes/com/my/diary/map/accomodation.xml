@@ -1,0 +1,50 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="accomodation">
+
+	<insert id="addAccomodation" parameterType="Accomodation">
+		INSERT INTO accomodation
+		(mydiary_idx, user_idx, nation, tips_accomodation)
+		VALUES
+		(#{mydiary_idx}, #{user_idx}, #{nation}, #{tips_accomodation})
+	</insert>
+	
+	<select id="getAccomodationCount" resultType="Integer">
+		SELECT COUNT(*) FROM accomodation
+	</select>
+	
+	<select id="getAccomodationAll" parameterType="HashMap" resultType="Accomodation">
+		SELECT * FROM accomodation
+		ORDER BY accomodation_idx DESC
+		LIMIT #{start},#{cnt}	
+	</select>
+	
+	<select id="getAccomByIdx" parameterType="Accomodation" resultType="Accomodation">
+		SELECT * FROM accomodation
+		WHERE mydiary_idx=#{mydiary_idx}
+	</select>
+	
+	<select id="getAccomCountAfterSch" parameterType="Accomodation" resultType="Integer">
+		SELECT COUNT(*) FROM accomodation
+		WHERE nation
+		LIKE CONCAT('%', #{nation}, '%')
+	</select>
+	
+	<select id="getAccomChunkAfterSch" parameterType="HashMap" resultType="Accomodation">
+		SELECT * FROM accomodation
+		WHERE nation
+		LIKE CONCAT('%', #{nation}, '%')
+		ORDER BY accomodation_idx DESC
+		LIMIT #{start}, #{cnt}
+	</select>
+	
+	<delete id="delAccomodation" parameterType="Accomodation">
+		DELETE FROM accomodation
+		WHERE mydiary_idx=#{mydiary_idx}
+	</delete>
+	
+	<select id="getAccomForCom" parameterType="Integer" resultType="Accomodation">
+		SELECT * FROM accomodation
+		WHERE accomodation_idx=#{accomodation_idx}
+	</select>
+
+</mapper>

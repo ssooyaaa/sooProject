@@ -1,0 +1,44 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="accomodation">
+
+
+	<select id="getAccomodationCount" resultType="Integer">
+		SELECT COUNT(*) FROM accomodation
+	</select>
+	
+	<select id="getAccomodationAll" parameterType="HashMap" resultType="Accomodation">
+		SELECT * FROM accomodation
+		ORDER BY accomodation_idx DESC
+		LIMIT #{start},#{cnt}	
+	</select>
+	
+	<delete id="delAccom" parameterType="Accomodation">
+		DELETE FROM accomodation
+		WHERE accomodation_idx=#{accomodation_idx}	
+	</delete>
+	
+	<select id="getAccomCountAfterSch" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM accomodation
+		WHERE user_idx=#{user_idx}
+	</select>
+	
+	<select id="getAccomChunkAfterSch" parameterType="HashMap" resultType="Accomodation">
+		SELECT * FROM accomodation
+		WHERE user_idx=#{user_idx}
+		ORDER BY accomodation_idx DESC
+		LIMIT #{start}, #{cnt}
+	</select>
+	
+	<select id="getAccomForUp" parameterType="Integer" resultType="Accomodation">
+		SELECT * FROM accomodation
+		WHERE accomodation_idx=#{accomodation_idx}
+	</select>
+	
+	<update id="updateAccom" parameterType="Accomodation">
+		UPDATE accomodation
+		SET tips_accomodation=#{tips_accomodation}
+		WHERE accomodation_idx=#{accomodation_idx}
+	</update>
+	
+
+</mapper>

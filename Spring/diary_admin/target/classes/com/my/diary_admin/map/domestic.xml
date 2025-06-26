@@ -1,0 +1,42 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="domestic">
+	
+	<select id="getDomesticCount" resultType="Integer">
+		SELECT COUNT(*) FROM domestic
+	</select>
+	
+	<select id="getDomesticAll" parameterType="HashMap" resultType="Domestic">
+		SELECT * FROM domestic
+		ORDER BY domestic_idx DESC
+		LIMIT #{start},#{cnt}
+	</select>
+	
+	<select id="getDomCountAfterSch" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM domestic
+		WHERE user_idx=#{user_idx}
+	</select>
+	
+	<select id="getDomChunkAfterSch" parameterType="HashMap" resultType="Domestic">
+		SELECT * FROM domestic
+		WHERE user_idx=#{user_idx}
+		ORDER BY domestic_idx DESC
+		LIMIT #{start}, #{cnt}
+	</select>
+	
+	<delete id="delDomestic" parameterType="Domestic">
+		DELETE FROM domestic
+		WHERE domestic_idx=#{domestic_idx}
+	</delete>
+	
+	<select id="getDomForUp" parameterType="Integer" resultType="Domestic">
+		SELECT * FROM domestic
+		WHERE domestic_idx=#{domestic_idx}
+	</select>
+	
+	<update id="updateDom" parameterType="Domestic">
+		UPDATE domestic
+		SET sight_desc=#{sight_desc}
+		WHERE domestic_idx=#{domestic_idx}
+	</update>
+
+</mapper>

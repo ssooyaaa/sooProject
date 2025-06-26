@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="domesticComment">
+
+	<select id="getDomCom" parameterType="Integer" resultType="domesticComment">
+		SELECT * FROM domestic_comment
+		WHERE domestic_idx=#{domestic_idx}
+		ORDER BY domestic_comment_idx DESC
+	</select>
+	
+	<insert id="addDomCom" parameterType="domesticComment">
+		INSERT INTO domestic_comment
+		(domestic_idx, user_idx,nickname, domestic_comment)
+		VALUES
+		(#{domestic_idx},#{user_idx},#{nickname},#{domestic_comment})
+	</insert>
+	
+	<delete id="delDomCom" parameterType="Integer">
+		DELETE FROM domestic_comment
+		WHERE domestic_comment_idx=#{domestic_comment_idx}
+	</delete>
+
+</mapper>

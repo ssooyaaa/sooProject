@@ -1,0 +1,12 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="phreport">
+
+	<insert id="addPhreport" parameterType="Phreport">
+		INSERT INTO phreport
+		(user_idx, report_desc, domestic_sight_img, domestic_sight_desc, abroad_sight_img, abroad_sight_desc)
+		VALUES
+		(#{user_idx},#{report_desc},#{domestic_sight_img},#{domestic_sight_desc},#{abroad_sight_img},#{abroad_sight_desc})
+	</insert>
+
+
+</mapper>

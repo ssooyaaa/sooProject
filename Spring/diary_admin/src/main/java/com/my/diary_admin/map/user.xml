@@ -1,0 +1,42 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">	
+
+	<select id="getUserCount" resultType="Integer">
+		SELECT COUNT(*) FROM user
+	</select>
+	
+	<select id="getUserAll" parameterType="HashMap" resultType="User">
+		SELECT * FROM user
+		ORDER BY created_date DESC
+		LIMIT #{start},#{cnt}
+	</select>
+	
+	<delete id="delUser" parameterType="User">
+		DELETE FROM user
+		WHERE user_idx=#{user_idx}
+	</delete>
+	
+	<insert id="addAdmin" parameterType="User">
+		INSERT INTO user
+		(id, pw, nickname, created_date, is_admin)
+		VALUES
+		(#{id}, MD5(#{pw}), #{nickname}, SYSDATE(), "Y")
+	</insert>
+	
+	<select id="getUserById" parameterType="User" resultType="User">
+		SELECT * FROM user
+		WHERE id=#{id} AND account="Y"
+	</select>
+	
+	<select id="getUserByNick" parameterType="User" resultType="User">
+		SELECT * FROM user
+		WHERE nickname=#{nickname} AND account="Y"
+	</select>
+	
+	<select id="getAdminByIdAndPw" parameterType="User" resultType="User">
+		SELECT * FROM user
+		WHERE id=#{id} AND pw=MD5(#{pw}) AND account="Y" AND is_admin="Y"
+	</select>
+
+	
+</mapper>

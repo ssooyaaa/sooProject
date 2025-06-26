@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="eatComment">
+
+	<select id="getEatCom" parameterType="Integer" resultType="eatComment">
+		SELECT * FROM eat_comment
+		WHERE eat_idx=#{eat_idx}
+		ORDER BY eat_comment_idx DESC
+	</select>
+	
+	<insert id="addEatCom" parameterType="eatComment">
+		INSERT INTO eat_comment
+		(eat_idx, user_idx,nickname, eat_comment)
+		VALUES
+		(#{eat_idx},#{user_idx},#{nickname},#{eat_comment})
+	</insert>
+	
+	<delete id="delEatCom" parameterType="Integer">
+		DELETE FROM eat_comment
+		WHERE eat_comment_idx=#{eat_comment_idx}
+	</delete>
+
+</mapper>

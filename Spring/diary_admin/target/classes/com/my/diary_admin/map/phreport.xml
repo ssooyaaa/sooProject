@@ -1,0 +1,26 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="phreport">	
+
+	<select id="getPhotosCount" resultType="Integer">
+		SELECT COUNT(*) FROM phreport
+	</select>
+	
+	<select id="getPhotosAll" parameterType="HashMap" resultType="Phreport">
+		SELECT * FROM phreport
+		ORDER BY phreport_idx DESC
+		LIMIT #{start},#{cnt}
+	</select>
+	
+	<update id="updateCheck" parameterType="Integer">
+		UPDATE phreport
+		SET ph_checked="Y"
+		WHERE phreport_idx=#{phreport_idx}
+	</update>
+	
+	<update id="returnCheck" parameterType="Integer">
+		UPDATE phreport
+		SET ph_checked="N"
+		WHERE phreport_idx=#{phreport_idx}
+	</update>
+	
+</mapper>

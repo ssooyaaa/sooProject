@@ -1,0 +1,57 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="abroad">
+
+	<insert id="addAbroad" parameterType="Abroad">
+		INSERT INTO abroad
+		(mydiary_idx, user_idx, nation, sight_img, sight_desc)
+		VALUES
+		(#{mydiary_idx}, #{user_idx}, #{nation},#{sight_img}, #{sight_desc})
+	</insert>
+	
+	<select id="getAbroadCount" resultType="Integer">
+		SELECT COUNT(*) FROM abroad
+	</select>
+	
+	<select id="getAbroadAll" parameterType="HashMap" resultType="Abroad">
+		SELECT * FROM abroad
+		ORDER BY abroad_idx DESC
+		LIMIT #{start},#{cnt}
+	</select>
+	
+	<select id="getAbroadPics" resultType="Abroad">
+		SELECT sight_img FROM abroad
+		WHERE sight_img NOT LIKE ''
+		ORDER BY abroad_idx DESC
+		LIMIT 10
+	</select>
+	
+	<select id="getAbroadByIdx" parameterType="Abroad" resultType="Abroad">
+		SELECT * FROM abroad
+		WHERE mydiary_idx=#{mydiary_idx}
+	</select>
+	
+	<select id="getAbroadCountAfterSch" parameterType="Abroad" resultType="Integer">
+		SELECT COUNT(*) FROM abroad
+		WHERE nation
+		LIKE CONCAT('%', #{nation}, '%')
+	</select>
+	
+	<select id="getAbroadChunkAfterSch" parameterType="HashMap" resultType="Abroad">
+		SELECT * FROM abroad
+		WHERE nation
+		LIKE CONCAT('%', #{nation}, '%')
+		ORDER BY abroad_idx DESC
+		LIMIT #{start}, #{cnt}
+	</select>
+	
+	<delete id="delAbroad" parameterType="Abroad">
+		DELETE FROM abroad
+		WHERE mydiary_idx=#{mydiary_idx}
+	</delete>
+	
+	<select id="getAbForCom" parameterType="Integer" resultType="Abroad">
+		SELECT * FROM abroad
+		WHERE abroad_idx=#{abroad_idx}
+	</select>
+
+</mapper>

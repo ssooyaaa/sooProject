@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="abroadComment">
+
+	<select id="getAbCom" parameterType="Integer" resultType="abroadComment">
+		SELECT * FROM abroad_comment
+		WHERE abroad_idx=#{abroad_idx}
+		ORDER BY abroad_comment_idx DESC
+	</select>
+	
+	<insert id="addAbCom" parameterType="abroadComment">
+		INSERT INTO abroad_comment
+		(abroad_idx, user_idx,nickname, abroad_comment)
+		VALUES
+		(#{abroad_idx},#{user_idx},#{nickname},#{abroad_comment})
+	</insert>
+	
+	<delete id="delAbCom" parameterType="Integer">
+		DELETE FROM abroad_comment
+		WHERE abroad_comment_idx=#{abroad_comment_idx}
+	</delete>
+	
+</mapper>

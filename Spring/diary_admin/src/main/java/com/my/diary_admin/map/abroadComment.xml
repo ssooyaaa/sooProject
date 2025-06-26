@@ -1,0 +1,24 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="abroadComment">
+
+	<select id="getAbComCount" resultType="Integer">
+		SELECT COUNT(*) FROM abroad_comment
+	</select>
+	
+	<select id="getAbComAll" parameterType="HashMap" resultType="abroadComment">
+		SELECT * FROM abroad_comment
+		ORDER BY abroad_comment_idx DESC
+		LIMIT #{start},#{cnt}
+	</select>
+	
+	<delete id="delAbCom" parameterType="Integer">
+		DELETE FROM abroad_comment
+		WHERE abroad_comment_idx=${abroad_comment_idx}
+	</delete>
+	
+	<select id="getAbCountByIdx" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM abroad_comment
+		WHERE user_idx=#{user_idx}	
+	</select>
+	
+</mapper>

@@ -1,0 +1,93 @@
+.projectList-container{
+	width:90%;
+	padding-top:50px;
+	margin:auto;
+}
+
+.project-search-condition{
+	border:1px solid #E9EFF1;
+	padding:30px 30px;
+	font-size:17px;
+	width:99%;
+}
+
+.search-type{
+	width:100%;
+	font-weight:600;
+}
+
+.search-type > span{
+	margin-right:70px;
+}
+
+.keyword-box{
+	width:100%;
+	margin-top:40px;
+}
+
+.keyword-box > select{
+	width:17%;
+	height:35px;
+	border-radius:5px;
+	border:1px solid #E9EFF1;
+}
+
+.keyword-box > input{
+	width:65%;
+	height:35px;
+	border-radius:5px;
+	border:1px solid #E9EFF1;
+}
+
+.keyword-box > button{
+	width:16%;
+	height:35px;
+	border-radius:5px;
+	border:none;
+	background:#112579;
+	color:#fff;
+	font-weight:700;
+}
+
+.pagination-sm{
+	width:90%;
+	height:50px;
+	margin:auto;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	margin-top:30px;
+	margin-bottom:30px;
+	background:#E9EFF1;
+	font-size:20px;
+	background:#E9EFF1;
+}
+
+.pagination{
+    display: inline-flex;
+    position: relative;
+}
+
+.pagination li a.page-link{
+    color:#99A3A4;
+    background:#E9EFF1;
+    font-size:18px;
+    font-weight:700;
+    line-height:35px;
+    height:35px;
+    width:35px;
+    margin:5px 8px;
+    border:none;
+    position: relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.pagination li a.page-link:hover,
+.pagination li a.page-link:focus,
+.pagination li.active a.page-link:hover,
+.pagination li.active a.page-link{
+    border:1px solid #1e1e1e;
+    border-radius:5px;
+}

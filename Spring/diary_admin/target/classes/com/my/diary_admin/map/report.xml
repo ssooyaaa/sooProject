@@ -1,0 +1,25 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="report">	
+
+	<select id="getTipsCount" resultType="Integer">
+		SELECT COUNT(*) FROM report
+	</select>
+	
+	<select id="getTipsAll" parameterType="HashMap" resultType="Report">
+		SELECT * FROM report
+		ORDER BY report_idx DESC
+		LIMIT #{start},#{cnt}
+	</select>
+	
+	<update id="updateCheck" parameterType="Integer">
+		UPDATE report
+		SET re_checked="Y"
+		WHERE report_idx=#{report_idx}
+	</update>
+	
+	<update id="returnCheck" parameterType="Integer">
+		UPDATE report
+		SET re_checked="N"
+		WHERE report_idx=#{report_idx}
+	</update>
+</mapper>

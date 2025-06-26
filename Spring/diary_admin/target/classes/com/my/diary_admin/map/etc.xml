@@ -1,0 +1,42 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="etc">
+
+	<select id="getEtcCount" resultType="Integer">
+		SELECT COUNT(*) FROM etc
+	</select>
+	
+	<select id="getEtcAll" parameterType="HashMap" resultType="Etc">
+		SELECT * FROM etc
+		ORDER BY etc_idx DESC
+		LIMIT #{start},#{cnt}	
+	</select>
+	
+	<select id="getEtcCountAfterSch" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM etc
+		WHERE user_idx=#{user_idx}
+	</select>
+	
+	<select id="getEtcChunkAfterSch" parameterType="HashMap" resultType="Etc">
+		SELECT * FROM etc
+		WHERE user_idx=#{user_idx}
+		ORDER BY etc_idx DESC
+		LIMIT #{start}, #{cnt}
+	</select>
+	
+	<delete id="delEtc" parameterType="Etc">
+		DELETE FROM etc
+		WHERE etc_idx=#{etc_idx}
+	</delete>
+	
+	<select id="getEtcForUp" parameterType="Integer" resultType="Etc">
+		SELECT * FROM etc
+		WHERE etc_idx=#{etc_idx}
+	</select>
+	
+	<update id="updateEtc" parameterType="Etc">
+		UPDATE etc
+		SET tips_etc=#{tips_etc}
+		WHERE etc_idx=#{etc_idx}
+	</update>
+
+</mapper>

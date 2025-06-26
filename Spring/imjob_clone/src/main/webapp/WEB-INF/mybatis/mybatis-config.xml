@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="true" />	
+		<setting name="aggressiveLazyLoading" value="true" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="true" />
+		<setting name="defaultExecutorType" value="REUSE" />
+		<setting name="defaultStatementTimeout" value="5000" />
+		<!--<setting name="lazyLoadingEnabled" value="true" /> -->
+		<!-- <setting name="autoMappingBehavior" value="false" /> -->
+	</settings>
+	
+	
+	<!-- VO 등록 -->
+	<typeAliases>
+		<typeAlias alias="User" type="com.my.imjob_clone.vo.User" />
+		<typeAlias alias="Project" type="com.my.imjob_clone.vo.Project" />
+		<typeAlias alias="NewWork" type="com.my.imjob_clone.vo.NewWork" /> 
+		
+	</typeAliases>
+	
+	
+	
+</configuration>

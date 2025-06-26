@@ -1,0 +1,25 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="transportComment">
+
+	<select id="getTransComCount" resultType="Integer">
+		SELECT COUNT(*) FROM transport_comment
+	</select>
+	
+	<select id="getTransComAll" parameterType="HashMap" resultType="transportComment">
+		SELECT * FROM transport_comment
+		ORDER BY transport_comment_idx DESC
+		LIMIT #{start},#{cnt}
+	</select>
+	
+	<delete id="delTransCom" parameterType="Integer">
+		DELETE FROM transport_comment
+		WHERE transport_comment_idx=${transport_comment_idx}
+	</delete>
+	
+	
+	<select id="getTransCountByIdx" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM transport_comment
+		WHERE user_idx=#{user_idx}	
+	</select>
+	
+</mapper>

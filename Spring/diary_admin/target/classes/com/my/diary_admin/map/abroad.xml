@@ -1,0 +1,42 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="abroad">
+
+	<select id="getAbroadCount" resultType="Integer">
+		SELECT COUNT(*) FROM abroad
+	</select>
+	
+	<select id="getAbroadAll" parameterType="HashMap" resultType="Abroad">
+		SELECT * FROM abroad
+		ORDER BY abroad_idx DESC
+		LIMIT #{start},#{cnt}
+	</select>
+	
+	<select id="getAbroadCountAfterSch" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM abroad
+		WHERE user_idx=#{user_idx}
+	</select>
+	
+	<select id="getAbroadChunkAfterSch" parameterType="HashMap" resultType="Abroad">
+		SELECT * FROM abroad
+		WHERE user_idx=#{user_idx}
+		ORDER BY abroad_idx DESC
+		LIMIT #{start}, #{cnt}
+	</select>
+	
+	<delete id="delAbroad" parameterType="Abroad">
+		DELETE FROM abroad
+		WHERE abroad_idx=#{abroad_idx}
+	</delete>
+	
+	<select id="getAbForUp" parameterType="Integer" resultType="Abroad">
+		SELECT * FROM abroad
+		WHERE abroad_idx=#{abroad_idx}
+	</select>
+	
+	<update id="updateAb" parameterType="Abroad">
+		UPDATE abroad
+		SET sight_desc=#{sight_desc}
+		WHERE abroad_idx=#{abroad_idx}
+	</update>
+
+</mapper>

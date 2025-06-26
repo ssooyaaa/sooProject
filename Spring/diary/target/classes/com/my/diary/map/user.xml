@@ -1,0 +1,34 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">	
+
+
+	<insert id="addUser" parameterType="User">
+		INSERT INTO user
+		(id, pw, nickname, created_date)
+		VALUES
+		(#{id}, MD5(#{pw}), #{nickname}, SYSDATE())
+	</insert>
+	
+	<select id="getUserById" parameterType="User" resultType="User">
+		SELECT * FROM user
+		WHERE id=#{id} AND account="Y"
+	</select>
+	
+	<select id="getUserByNick" parameterType="User" resultType="User">
+		SELECT * FROM user
+		WHERE nickname=#{nickname} AND account="Y"
+	</select>
+	
+	<select id="getUserByIdAndPw" parameterType="User" resultType="User">
+		SELECT * FROM user
+		WHERE id=#{id} AND pw=MD5(#{pw}) AND account="Y"
+	</select>
+	
+	<update id="deleteUser" parameterType="User">
+		UPDATE user
+		SET account="N"
+		WHERE user_idx=#{user_idx}
+	</update>
+
+
+</mapper>

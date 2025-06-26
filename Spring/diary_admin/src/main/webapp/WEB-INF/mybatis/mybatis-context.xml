@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+   					   http://www.springframework.org/schema/beans/spring-beans.xsd
+      				   http://mybatis.org/schema/mybatis-spring 
+      				   http://mybatis.org/schema/mybatis-spring.xsd">
+	
+	
+
+	<!-- MariaDB JDBC DataSource -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
+		<property name="url" value="jdbc:mariadb://43.201.56.11:3306/diary" />
+		<property name="username" value="soohyunoc" />
+		<property name="password" value="oc5029oc" />
+		<property name="validationQuery" value="select 1"/>
+	</bean>
+	
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+         <property name="dataSource" ref="dataSource" />
+         <property name="mapperLocations">
+            <list>
+               <value>classpath:com/my/diary_admin/map/*.xml</value>
+            </list>
+         </property> 
+         
+         <property name="configLocation" value="/WEB-INF/mybatis/mybatis-config.xml" />
+         <property name="transactionFactory">
+         <bean class="org.mybatis.spring.transaction.SpringManagedTransactionFactory" />
+      <!-- <bean class="org.apache.ibatis.transaction.managed.ManagedTransactionFactory" /> -->
+         </property>
+    </bean>
+    
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+         <property name="dataSource" ref="dataSource" />
+    </bean>
+            
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+         <constructor-arg index="0" ref="sqlSessionFactory" />
+    </bean>
+    
+    
+    
+     <!-- Dao 추가 -->
+    <bean id="UserDao" class="com.my.diary_admin.dao.UserDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="TransportDao" class="com.my.diary_admin.dao.TransportDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="AccomodationDao" class="com.my.diary_admin.dao.AccomodationDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="EatDao" class="com.my.diary_admin.dao.EatDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="EtcDao" class="com.my.diary_admin.dao.EtcDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="DomesticDao" class="com.my.diary_admin.dao.DomesticDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="AbroadDao" class="com.my.diary_admin.dao.AbroadDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="ReportDao" class="com.my.diary_admin.dao.ReportDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="PhreportDao" class="com.my.diary_admin.dao.PhreportDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="TransportCommentDao" class="com.my.diary_admin.dao.TransportCommentDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="AccomodationCommentDao" class="com.my.diary_admin.dao.AccomodationCommentDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="EatCommentDao" class="com.my.diary_admin.dao.EatCommentDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="EtcCommentDao" class="com.my.diary_admin.dao.EtcCommentDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="DomesticCommentDao" class="com.my.diary_admin.dao.DomesticCommentDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="AbroadCommentDao" class="com.my.diary_admin.dao.AbroadCommentDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+    
+    <bean id="MydiaryDao" class="com.my.diary_admin.dao.MydiaryDao">
+       	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+</beans>

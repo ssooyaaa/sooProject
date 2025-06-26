@@ -1,0 +1,84 @@
+@font-face{
+	font-family:"godik";
+	font-style:normal;
+	src:url(../fonts/godic.otf) format('truetype');
+}
+
+
+.comment-body{
+	width:100%;
+	font-family:godik;
+	font-size:15px;
+	display:flex;
+	height:1000px;
+}
+
+.left-menu{
+	width:20%;
+	height:100%;
+	background:#FEF5E7;
+}
+
+.comment-subname{
+	margin-top:30px;
+	margin-left:30px;
+	font-size:40px;
+	font-weight:800;
+	color:var(--color-main);
+	margin-bottom:20px;
+}
+
+.tips-subname{
+	width:100%;
+	text-align:right;
+	padding-right:10px;
+	font-size:25px;
+	font-weight:700;
+	height:45px;
+	border-top:2px solid var(--color-main);
+	cursor:pointer;
+}
+
+.tips-subname:hover{
+	background:var(--color-main);
+}
+
+.tips-subname.active{
+	background:var(--color-main);
+}
+
+.main-content{
+	width:80%;
+}
+
+.comment-name{
+	margin-top:50px;
+	margin-left:5%;
+	font-size:40px;
+	width:95%;
+	border-bottom:2px solid #1e1e1e;
+}
+
+table thead .com-table-idx{
+	width:10%;
+}
+
+table thead .com-user{
+	width:20%;
+}
+
+table thead .com-report-desc{
+	width:60%;
+}
+
+table thead .com-btn{
+	width:10%;
+}
+
+#del-btn{
+	cursor:pointer
+}
+
+#del-btn:hover{
+	background:#EEEDEC;
+}

@@ -1,0 +1,85 @@
+.login-container{
+	width:70%;
+	padding-top:50px;
+	margin:auto;
+}
+
+.login-box{
+	width:100%;
+	height:370px;
+	display:flex;
+}
+
+.login{
+	width:50%;
+	height:330px;
+	border:5px solid #E9EFF1;
+	padding:20px 20px;
+}
+
+.id-pw-box{
+	width:90%;
+	margin-left:5%;
+	display:flex;
+	justify-content:center;
+	margin-top:20px;
+	border:1px solid #E9EFF1;
+	padding-top:30px;
+	padding-bottom:20px;
+}
+
+.id-pw-title{
+	display:flex;
+	flex-direction:column;
+	font-size:13px;
+	margin-right:60px;
+}
+
+.id-pw-title > span{
+	margin-bottom:20px;
+}
+
+.input{
+	display:flex;
+	flex-direction:column;
+}
+
+.input > input{
+	margin-bottom:10px;
+	background:#E9EFF1;
+	border:1px solid #99A3A4;
+}
+
+.login-box-btn{
+	height:70px;
+	width:70px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	background:#112579;
+	color:#fff;
+	margin-left:10px;
+	cursor:pointer;
+}
+
+.go-membership{
+	width:140px;
+	text-align:center;
+	border:1px solid #1e1e1e;
+	font-weight:700;
+	cursor:pointer;
+}
+
+.search-id-pw{
+	width:140px;
+	text-align:center;
+	border:1px solid #1e1e1e;
+	font-weight:700;
+	cursor:pointer;
+}
+
+.login-next-image{
+	width:50%;
+	height:310px;
+	padding-left:20px;
+}

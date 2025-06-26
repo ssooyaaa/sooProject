@@ -1,0 +1,163 @@
+.login-body{
+	width:100%;
+	height:calc(100% - 60px);	
+	position:relative;
+	font-family:godik;
+	font-size:15px;
+	color:#1e1e1e;
+}
+
+.login-body img{
+	width:100%;
+	height:100%;
+	object-fit:cover;
+}
+
+.login-container{
+	width:100%;
+	height:100%;
+	background:rgba(0,0,0,0.4);
+	position:absolute;
+	top:0;
+	left:0;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+
+.form-box{
+	width:380px;
+	height:480px;
+	position:relative;
+	margin:6% auto;
+	background:#fff;
+	padding:5px;
+	opacity:0.9;
+	border-radius:20px;
+	overflow:hidden;
+}
+
+.button-box{
+	width:250px;
+	margin:25px auto;
+	position:relative;
+	box-shadow:0 0 20px 9px #ff61241f;
+	border-radius:30px;
+	display:flex;
+	justify-content:space-between;
+}
+
+.login-container .toggle{
+	font-weight:700;	
+	padding:7px 33px;
+	cursor:pointer;
+	background:transparent;
+	border:0;
+	outline:none;
+	position:relative;
+}
+
+#login-register-btn{
+	position:absolute;
+	top:0;
+	left:0;
+	width:130px;
+	height:100%;
+	background:linear-gradient(to right, var(--color-main), #FADEB2);
+	border-radius:30px;
+	transition:1s;
+}
+
+.login-group{
+	position:absolute;
+	top:100px;
+	width:280px;
+	transition:1s;	
+}
+
+.login-input{
+	font-weight:700;
+	width:100%;
+	padding:10px 0;
+	margin:5px 0;
+	border:0;
+	border-bottom:1px solid var(--color-main);
+	outline:none;
+	background:transparent;
+}
+
+.login-submit{
+	font-weight:800;
+	width:85%;
+	padding:5px 33px;
+	cursor:pointer;
+	display:block;
+	margin:auto;
+	background:linear-gradient(to right, var(--color-main), #FADEB2);
+	border:0;
+	border-radius:30px;
+	outline:none;
+}
+
+.login-check-box input{
+	display:none;
+}
+
+.login-check-box span{
+	display:inline-block;
+	vertical-align:middle;
+	cursor:pointer;
+}
+
+.login-check-box .icon{
+	position:relative;
+	width:15px;
+	height:15px;
+	border:1px solid var(--color-main);
+	border-radius:3px;
+}
+
+.login-check-box .icon::after{
+	content:"";
+	position:absolute;
+	top:0px;
+	left:5px;
+	width:5px;
+	height:11px;
+	border-right:2px solid #fff;
+	border-bottom:2px solid #fff;
+	transform:rotate(45deg) scale(0);
+	opacity:0;
+}
+
+.login-check-box .text{
+	margin-left:5px;
+}
+
+.login-check-box input:checked ~ .icon{
+	border-color:transparent;
+	background:var(--color-main);
+}
+
+.login-check-box input:checked ~ .icon::after{
+	opacity:1;
+	transform:rotate(45deg) scale(1);
+}
+
+
+.login-check-box{
+	margin:20px 10px 30px 0;
+}
+
+.login-group label{
+	font-size:13px;
+}
+
+
+#login{
+	left:50px;
+}
+
+#register{
+	left:450px;
+}

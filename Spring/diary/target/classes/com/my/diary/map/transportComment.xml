@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="transportComment">
+
+	<select id="getTransCom" parameterType="Integer" resultType="transportComment">
+		SELECT * FROM transport_comment
+		WHERE transport_idx=#{transport_idx}
+		ORDER BY transport_comment_idx DESC
+	</select>
+	
+	<insert id="addCom" parameterType="transportComment">
+		INSERT INTO transport_comment
+		(transport_idx, user_idx, nickname, transport_comment)
+		VALUES
+		(#{transport_idx},#{user_idx},#{nickname},#{transport_comment})
+	</insert>
+	
+	<delete id="delCom" parameterType="Integer">
+		DELETE FROM transport_comment
+		WHERE transport_comment_idx=#{transport_comment_idx}
+	</delete>
+
+</mapper>

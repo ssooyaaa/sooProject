@@ -1,0 +1,43 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="eat">
+	
+	<select id="getEatCount" resultType="Integer">
+		SELECT COUNT(*) FROM eat
+	</select>
+	
+	<select id="getEatAll" parameterType="HashMap" resultType="Eat">
+		SELECT * FROM eat
+		ORDER BY eat_idx DESC
+		LIMIT #{start},#{cnt}	
+	</select>
+	
+	<select id="getEatCountAfterSch" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM eat
+		WHERE user_idx=#{user_idx}
+	</select>
+	
+	<select id="getEatChunkAfterSch" parameterType="HashMap" resultType="Eat">
+		SELECT * FROM eat
+		WHERE user_idx=#{user_idx}
+		ORDER BY eat_idx DESC
+		LIMIT #{start}, #{cnt}
+	</select>
+	
+	<delete id="delEat" parameterType="Eat">
+		DELETE FROM eat
+		WHERE eat_idx=#{eat_idx}
+	</delete>
+	
+	<select id="getEatForUp" parameterType="Integer" resultType="Eat">
+		SELECT * FROM eat
+		WHERE eat_idx=#{eat_idx}
+	</select>
+	
+	<update id="updateEat" parameterType="Eat">
+		UPDATE eat
+		SET tips_eat=#{tips_eat}
+		WHERE eat_idx=#{eat_idx}
+	</update>
+	
+
+</mapper>

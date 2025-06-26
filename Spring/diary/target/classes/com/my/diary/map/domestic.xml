@@ -1,0 +1,57 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="domestic">
+
+	<insert id="addDomestic" parameterType="Domestic">
+		INSERT INTO domestic
+		(mydiary_idx, user_idx, nation, sight_img, sight_desc)
+		VALUES
+		(#{mydiary_idx}, #{user_idx}, #{nation}, #{sight_img}, #{sight_desc})
+	</insert>
+	
+	<select id="getDomesticCount" resultType="Integer">
+		SELECT COUNT(*) FROM domestic
+	</select>
+	
+	<select id="getDomesticAll" parameterType="HashMap" resultType="Domestic">
+		SELECT * FROM domestic
+		ORDER BY domestic_idx DESC
+		LIMIT #{start},#{cnt}
+	</select>
+	
+	<select id="getDomesticPics" resultType="Domestic">
+		SELECT sight_img FROM domestic
+		WHERE sight_img NOT LIKE ''
+		ORDER BY domestic_idx DESC
+		LIMIT 10
+	</select>
+	
+	<select id="getDomesticByIdx" parameterType="Domestic" resultType="Domestic">
+		SELECT * FROM domestic
+		WHERE mydiary_idx=#{mydiary_idx}
+	</select>
+	
+	<select id="getDomCountAfterSch" parameterType="Domestic" resultType="Integer">
+		SELECT COUNT(*) FROM domestic
+		WHERE nation
+		LIKE CONCAT('%', #{nation}, '%')
+	</select>
+	
+	<select id="getDomChunkAfterSch" parameterType="HashMap" resultType="Domestic">
+		SELECT * FROM domestic
+		WHERE nation
+		LIKE CONCAT('%', #{nation}, '%')
+		ORDER BY domestic_idx DESC
+		LIMIT #{start}, #{cnt}
+	</select>
+	
+	<delete id="delDomestic" parameterType="Domestic">
+		DELETE FROM domestic
+		WHERE mydiary_idx=#{mydiary_idx}
+	</delete>
+	
+	<select id="getDomForCom" parameterType="Integer" resultType="Domestic">
+		SELECT * FROM domestic
+		WHERE domestic_idx=#{domestic_idx}
+	</select>
+
+</mapper>

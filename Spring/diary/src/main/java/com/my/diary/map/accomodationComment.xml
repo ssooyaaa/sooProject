@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="accomodationComment">
+
+	<select id="getAccomCom" parameterType="Integer" resultType="accomodationComment">
+		SELECT * FROM accomodation_comment
+		WHERE accomodation_idx=#{accomodation_idx}
+		ORDER BY accomodation_comment_idx DESC
+	</select>
+	
+	<insert id="addAccomCom" parameterType="accomodationComment">
+		INSERT INTO accomodation_comment
+		(accomodation_idx, user_idx, nickname, accomodation_comment)
+		VALUES
+		(#{accomodation_idx},#{user_idx},#{nickname},#{accomodation_comment})
+	</insert>
+	
+	<delete id="delAccomCom" parameterType="Integer">
+		DELETE FROM accomodation_comment
+		WHERE accomodation_comment_idx=#{accomodation_comment_idx}
+	</delete>
+
+</mapper>

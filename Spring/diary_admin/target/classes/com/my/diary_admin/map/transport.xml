@@ -1,0 +1,42 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="transport">
+
+	<select id="getTransportCount" resultType="Integer">
+		SELECT COUNT(*) FROM transport
+	</select>
+	
+	<select id="getTransportAll" parameterType="HashMap" resultType="Transport">
+		SELECT * FROM transport
+		ORDER BY transport_idx DESC
+		LIMIT #{start},#{cnt}
+	</select>
+
+	<delete id="delTrans" parameterType="Transport">
+		DELETE FROM transport
+		WHERE transport_idx=#{transport_idx}	
+	</delete>
+	
+	<select id="getTransCountAfterSch" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM transport
+		WHERE user_idx=#{user_idx}
+	</select>
+	
+	<select id="getTransChunkAfterSch" parameterType="HashMap" resultType="Transport">
+		SELECT * FROM transport
+		WHERE user_idx=#{user_idx}
+		ORDER BY transport_idx DESC
+		LIMIT #{start}, #{cnt}
+	</select>
+	
+	<select id="getTransForUp" parameterType="Integer" resultType="Transport">
+		SELECT * FROM transport
+		WHERE transport_idx=#{transport_idx}
+	</select>
+	
+	<update id="updateTrans" parameterType="Transport">
+		UPDATE transport
+		SET tips_transport=#{tips_transport}
+		WHERE transport_idx=#{transport_idx}
+	</update>
+	
+</mapper>

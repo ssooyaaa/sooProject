@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="etcComment">
+
+	<select id="getEtcCom" parameterType="Integer" resultType="etcComment">
+		SELECT * FROM etc_comment
+		WHERE etc_idx=#{etc_idx}
+		ORDER BY etc_comment_idx DESC
+	</select>
+	
+	<insert id="addEtcCom" parameterType="etcComment">
+		INSERT INTO etc_comment
+		(etc_idx, user_idx, nickname, etc_comment)
+		VALUES
+		(#{etc_idx},#{user_idx},#{nickname},#{etc_comment})
+	</insert>
+	
+	<delete id="delEtcCom" parameterType="Integer">
+		DELETE FROM etc_comment
+		WHERE etc_comment_idx=#{etc_comment_idx}
+	</delete>
+
+</mapper>

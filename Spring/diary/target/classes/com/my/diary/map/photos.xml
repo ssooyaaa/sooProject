@@ -1,0 +1,33 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="photos">
+
+	<insert id="addPhotos" parameterType="Photos">
+		INSERT INTO photos
+		(mydiary_idx, photos, sequence)
+		VALUES
+		(#{mydiary_idx}, #{photos}, #{sequence})
+	</insert>
+	
+	<select id="getPhotosByIdx" parameterType="Photos" resultType="Photos">
+		SELECT p.photos, p.sequence, pd.explain_text
+		FROM photos AS p
+		INNER JOIN photos_desc AS pd
+		ON p.mydiary_idx = pd.mydiary_idx AND p.sequence = pd.sequence
+		WHERE p.mydiary_idx=#{mydiary_idx}
+	</select>
+	
+	<select id="getCountByIdx" parameterType="Photos" resultType="Integer">
+		SELECT COUNT(*) FROM photos
+		WHERE mydiary_idx=${mydiary_idx}
+	</select>
+	
+	<delete id="delPhotos" parameterType="Photos">
+		DELETE p,pd FROM photos AS p
+		INNER JOIN photos_desc AS pd
+		ON p.mydiary_idx = pd.mydiary_idx
+		WHERE p.mydiary_idx=#{mydiary_idx}
+	</delete>
+	
+	
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="true" />	
+		<setting name="aggressiveLazyLoading" value="true" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="true" />
+		<setting name="defaultExecutorType" value="REUSE" />
+		<setting name="defaultStatementTimeout" value="5000" />
+		<!--<setting name="lazyLoadingEnabled" value="true" /> -->
+		<!-- <setting name="autoMappingBehavior" value="false" /> -->
+	</settings>
+	
+	
+	<!-- VO 등록 -->
+	<typeAliases>
+		<typeAlias alias="User" type="com.my.diary_admin.vo.User" />
+		
+		<typeAlias alias="Mydiary" type="com.my.diary_admin.vo.Mydiary" /> 
+		
+		<typeAlias alias="Transport" type="com.my.diary_admin.vo.Transport" />
+		<typeAlias alias="Accomodation" type="com.my.diary_admin.vo.Accomodation" />
+		<typeAlias alias="Eat" type="com.my.diary_admin.vo.Eat" />
+		<typeAlias alias="Etc" type="com.my.diary_admin.vo.Etc" />
+
+		<typeAlias alias="Abroad" type="com.my.diary_admin.vo.Abroad" />
+		<typeAlias alias="Domestic" type="com.my.diary_admin.vo.Domestic" />
+		
+		<typeAlias alias="Report" type="com.my.diary_admin.vo.Report" />
+		<typeAlias alias="Phreport" type="com.my.diary_admin.vo.Phreport" />
+		
+		<typeAlias alias="TransportComment" type="com.my.diary_admin.vo.TransportComment" />
+		<typeAlias alias="AccomodationComment" type="com.my.diary_admin.vo.AccomodationComment" />
+		<typeAlias alias="EatComment" type="com.my.diary_admin.vo.EatComment" />
+		<typeAlias alias="EtcComment" type="com.my.diary_admin.vo.EtcComment" />
+
+		<typeAlias alias="DomesticComment" type="com.my.diary_admin.vo.DomesticComment" />
+		<typeAlias alias="AbroadComment" type="com.my.diary_admin.vo.AbroadComment" />
+
+	</typeAliases>
+	
+	
+	
+</configuration>

@@ -1,0 +1,129 @@
+.membership-container{
+	width:70%;
+	padding-top:50px;
+	margin:auto;
+}
+
+.membership-info{
+	width:100%;
+	height:350px;
+	background:#E9EFF1;
+	border-radius:5px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	margin-bottom:20px;
+}
+
+.membership-box{
+	width:97%;
+	height:93%;
+	border-radius:5px;
+	background:#fff;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+
+.membership-contents{
+	width:95%;
+	height:90%;
+	border:2px solid #E9EFF1;
+	padding:10px 10px;
+	overflow-y:scroll;
+}
+
+.content{
+	margin-bottom:20px;
+}
+
+.content-title{
+	font-size:16px;
+	font-weight:700;
+}
+
+.content-detail{
+	font-size:14px;
+}
+
+.check{
+	width:100%;
+	font-size:14px;
+	display:flex;
+	justify-content:center;
+	margin-bottom:50px;
+}
+
+.check > input{
+	margin-right:5px;
+}
+
+.membership-next{
+	width:100%;
+	font-size:20px;
+	color:#fff;
+	display:flex;
+	justify-content:center;
+	margin-bottom:70px;
+}
+
+.membership-next-btn{
+	background:#112579;
+	padding:3px 30px;
+	cursor:pointer;
+}
+
+
+
+.membership-form-title{
+	background:#E9EFF1;
+	display:flex;
+	justify-content:space-between;
+	border-radius:5px;
+	border:1px solid #99A3A4;
+	padding:3px 5px;
+}
+
+table{
+	margin-top:10px;
+	width:100%;
+	border-top:2px solid #112579;
+	border-left:1px solid #99A3A4;
+	border-right:1px solid #99A3A4;
+	border-bottom:1px solid #99A3A4;
+	margin-bottom:20px;
+	font-size:15px;
+	border-collapse: collapse;
+}
+
+tr{
+	height:40px;
+	
+}
+
+tr > td{
+	border-bottom:1px solid #99A3A4;
+}
+
+.gray-bg{
+	background:#E9EFF1;
+	width:150px;
+}
+
+td span{
+	padding-left:10px;
+}
+
+td input{
+	margin-left:5px;
+	background:#E9EFF1;
+	border:1px solid #99A3A4;
+}
+
+.membership-submit{
+	background:#112579;
+	padding:3px 30px;
+	cursor:pointer;
+	font-size:20px;
+	color:#fff;
+}
